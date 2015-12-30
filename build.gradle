@@ -88,6 +88,36 @@ project(":core") {
     }
 }
 
+project(":tests") {
+    apply plugin: "java"
+    apply plugin: "scala"
+
+    dependencies {
+//        compile project(":android")
+//        compile project(":html")
+//        compile project(":desktop")
+
+        compile project(":core")
+
+        compile "junit:junit:4.+"
+        compile "org.mockito:mockito-all:1.9.+"
+
+        compile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+
+        compile "org.scala-lang:scala-library:2.11.1"
+        testCompile 'org.scalatest:scalatest_2.11:2+'
+        testRuntime 'org.pegdown:pegdown:1.1.0'
+
+        testCompile 'junit:junit:4.+'
+        testCompile "org.mockito:mockito-all:1.9.+"
+
+        testCompile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        testCompile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        testCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    }
+}
+
 tasks.eclipse.doLast {
     delete ".project"
 }
