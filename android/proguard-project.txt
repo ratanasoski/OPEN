@@ -32,7 +32,12 @@
 -dontwarn java.lang.management.**
 -dontwarn java.beans.**
 
+-dontwarn org.scalatest.**
+-dontwarn org.scalactic.**
+-dontwarn scala.reflect.**
+
 -keep class com.badlogic.gdx.controllers.android.AndroidControllers
+
 
 -keepclassmembers class com.badlogic.gdx.backends.android.AndroidInput* {
    <init>(com.badlogic.gdx.Application, android.content.Context, java.lang.Object, com.badlogic.gdx.backends.android.AndroidApplicationConfiguration);

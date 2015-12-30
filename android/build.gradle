@@ -32,6 +32,10 @@ android {
             proguardFile 'proguard-project.txt'
         }
     }
+
+    packagingOptions {
+        exclude 'org/scalactic/ScalacticBundle.properties'
+    }
 }
 
 
