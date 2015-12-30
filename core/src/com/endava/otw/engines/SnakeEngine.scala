@@ -1,9 +1,10 @@
-package com.endava.otw
+package com.endava.otw.engines
 
-import com.badlogic.gdx.{Input, InputProcessor, Gdx}
+import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.endava.otw.model.{Apple, Snake, Drawing}
+import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.{Gdx, Input, InputProcessor}
+import com.endava.otw.model.{Apple, Drawing, Snake}
 import com.endava.otw.util._
 
 /**
@@ -11,10 +12,12 @@ import com.endava.otw.util._
   */
 class SnakeEngine extends InputProcessor with Engine {
 
+  private val internal: FileHandle = Gdx.files.internal("apple.png")
   /**
     * Apple the snake is chasing.
     */
-  private val appleTexture = new Texture(Gdx.files.internal("apple.png"))
+
+ private val appleTexture = new Texture(internal)
 
   /**
     * A texture is a bitmap image that gets drawn on the screen through mapping.
@@ -56,7 +59,7 @@ class SnakeEngine extends InputProcessor with Engine {
       snake = snake.checkSnakeOutOfBound(direction)
       apple = apple.checkAppleIsEaten(snake)
     }
-    List(new Drawing(snakeTexture, snake.x, snake.y), new Drawing(appleTexture, apple.x, apple.y))
+    List(new Drawing(new TextureRegion(snakeTexture), snake.x, snake.y), new Drawing(new TextureRegion(appleTexture), apple.x, apple.y))
   }
 
   override def keyDown(keycode: Int): Boolean = {

@@ -3,6 +3,7 @@ package com.endava.otw
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.{GL20, Texture}
 import com.badlogic.gdx.{Game, Gdx}
+import com.endava.otw.screens.GameScreen
 
 class ScalaDemoGame extends Game {
 

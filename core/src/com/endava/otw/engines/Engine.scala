@@ -1,4 +1,4 @@
-package com.endava.otw
+package com.endava.otw.engines
 
 import com.endava.otw.model.Drawing
 

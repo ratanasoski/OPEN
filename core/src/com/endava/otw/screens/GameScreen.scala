@@ -1,8 +1,9 @@
-package com.endava.otw
+package com.endava.otw.screens
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.{Color, GL20}
 import com.badlogic.gdx.{Gdx, ScreenAdapter}
+import com.endava.otw.engines.{SnakeEngine, AnimationDemoEngine}
 
 /**
   * A class that will implement the logic of the game screen. It extends the ScreenAdapter class, which itself
@@ -21,7 +22,7 @@ class GameScreen extends ScreenAdapter {
     */
   private val batch: SpriteBatch = new SpriteBatch
 
-  private val engine: SnakeEngine = SnakeEngine.apply
+  private val engine: AnimationDemoEngine = new AnimationDemoEngine
 
   Gdx.input.setInputProcessor(engine)
 
