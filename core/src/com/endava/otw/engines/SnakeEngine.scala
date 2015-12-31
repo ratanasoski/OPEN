@@ -12,12 +12,10 @@ import com.endava.otw.util._
   */
 class SnakeEngine extends InputProcessor with Engine {
 
-  private val internal: FileHandle = Gdx.files.internal("apple.png")
   /**
     * Apple the snake is chasing.
     */
-
- private val appleTexture = new Texture(internal)
+  private val appleTexture = new Texture(Gdx.files.internal("apple.png"))
 
   /**
     * A texture is a bitmap image that gets drawn on the screen through mapping.

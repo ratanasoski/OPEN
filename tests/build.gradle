@@ -1,14 +1,11 @@
 apply plugin: "java"
 sourceCompatibility = 1.6
 [compileJava, compileTestJava, compileTestScala]*.options*.encoding = 'UTF-8'
-sourceSets {
-    test {
-        java {
-            srcDir 'src'
-        }
-    }
-}
-sourceSets.test.scala.srcDirs = ["src/"]
+
+sourceSets.test.java.srcDirs = [ "src/" ]
+sourceSets.test.scala.srcDirs = [ "src/" ]
+sourceSets.main.resources.srcDirs = [ "resources/" ]
+
 eclipse.project {
     name = appName + "-tests"
 }
