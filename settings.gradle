@@ -1,3 +1,0 @@
-include 'desktop', 'android', 'ios', 'core'
-include 'tests'
-
