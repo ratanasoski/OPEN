@@ -6,7 +6,7 @@ import com.badlogic.gdx.ApplicationListener
   * Simple Empty class that extends ApplicationListener
   * Only for the purpose of UnitSpec
   */
-class CustomTestRunner extends ApplicationListener{
+class TestApplicationRunner extends ApplicationListener{
 
   override def resize(width: Int, height: Int): Unit = {}
 
