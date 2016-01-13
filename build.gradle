@@ -7,6 +7,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:1.2.3'
         classpath 'org.robovm:robovm-gradle-plugin:1.12.0'
         classpath 'com.github.maiflai:gradle-scalatest:0.10'
+        classpath "gradle.plugin.org.scoverage:gradle-scoverage:2.0.0"
     }
 }
 
@@ -79,6 +80,7 @@ project(":ios") {
 project(":core") {
     apply plugin: "java"
     apply plugin: "scala"
+    apply plugin: "org.scoverage"
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -97,6 +99,8 @@ project(":core") {
         testCompile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         testCompile "com.badlogicgames.gdx:gdx:$gdxVersion"
         testCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+
+        scoverage 'org.scoverage:scalac-scoverage-plugin_2.11:1.1.0', 'org.scoverage:scalac-scoverage-runtime_2.11:1.1.0'
 
     }
 }
