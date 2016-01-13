@@ -30,6 +30,15 @@
 -dontwarn sun.misc.*
 -dontwarn java.lang.management.**
 -dontwarn java.beans.**
+-dontwarn org.mockito.**
+-dontwarn org.objenesis.**
+
+-dontwarn  android.test.AndroidTestCase
+-dontwarn  android.test.AndroidTestRunner
+-dontwarn  android.test.InstrumentationTestCase
+-dontwarn  android.test.InstrumentationTestSuite
+-dontwarn  android.test.suitebuilder.TestSuiteBuilder$FailedToCreateTests
+
 
 -keep class com.badlogic.gdx.controllers.android.AndroidControllers
 
