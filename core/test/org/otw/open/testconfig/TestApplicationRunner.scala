@@ -1,4 +1,4 @@
-package com.endava.open.testconfig
+package org.otw.open.testconfig
 
 import com.badlogic.gdx.ApplicationListener
 
@@ -6,7 +6,7 @@ import com.badlogic.gdx.ApplicationListener
   * Simple Empty class that extends ApplicationListener
   * Only for the purpose of UnitSpec
   */
-class TestApplicationRunner extends ApplicationListener{
+class TestApplicationRunner extends ApplicationListener {
 
   override def resize(width: Int, height: Int): Unit = {}
 

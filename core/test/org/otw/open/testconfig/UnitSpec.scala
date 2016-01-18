@@ -1,7 +1,7 @@
-package com.endava.open.testconfig
+package org.otw.open.testconfig
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.backends.headless.{HeadlessApplication, HeadlessApplicationConfiguration}
+import com.badlogic.gdx.backends.headless._
 import com.badlogic.gdx.graphics.GL20
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock

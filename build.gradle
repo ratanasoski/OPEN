@@ -45,7 +45,7 @@ project(":desktop") {
     }
 
     launch4j {
-        mainClassName = 'com.endava.open.desktop.DesktopLauncher'
+        mainClassName = 'org.otw.open.desktop.DesktopLauncher'
     }
 }
 

@@ -1,5 +1,4 @@
-package com.endava.open.testconfig
-
+package org.otw.open.testconfig
 import com.badlogic.gdx.backends.headless.mock.graphics.MockGraphics
 
 /**

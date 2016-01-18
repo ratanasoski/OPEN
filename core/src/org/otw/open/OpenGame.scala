@@ -1,4 +1,4 @@
-package com.endava.open
+package org.otw.open
 
 import com.badlogic.gdx.Game
 

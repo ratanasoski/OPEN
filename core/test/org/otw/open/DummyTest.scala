@@ -1,6 +1,6 @@
-package com.endava.open
+package org.otw.open
 
-import com.endava.open.testconfig.UnitSpec
+import org.otw.open.testconfig.UnitSpec
 
 /**
   * Created by eilievska on 1/13/2016.
