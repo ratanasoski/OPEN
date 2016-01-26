@@ -38,7 +38,8 @@
 -dontwarn  android.test.InstrumentationTestCase
 -dontwarn  android.test.InstrumentationTestSuite
 -dontwarn  android.test.suitebuilder.TestSuiteBuilder$FailedToCreateTests
-
+-dontwarn  org.hamcrest.**
+-dontwarn  org.junit.**
 
 -keep class com.badlogic.gdx.controllers.android.AndroidControllers
 
