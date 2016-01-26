@@ -11,7 +11,7 @@ public class DesktopLauncher {
         config.height = 900;
         config.resizable = false;
         config.title = "OPEN - a children's game";
-        new LwjglApplication(new OpenGame(), config);
+        new LwjglApplication(OpenGame.getGame(), config);
 
     }
 }
