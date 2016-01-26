@@ -1,20 +1,20 @@
 package org.otw.open
 
-import com.badlogic.gdx.{Screen, Game}
-import org.otw.open.engine.impl.FirstGameScreenEngine
+import com.badlogic.gdx.{Game, Screen}
+import org.otw.open.engine.impl.EraserGameEngine
 
 /**
   * Created by eilievska on 1/13/2016.
   */
 class OpenGame private() extends Game {
-  override def create(): Unit = setScreen(new GameScreen(new FirstGameScreenEngine))
+  override def create(): Unit = setScreen(new GameScreen(new EraserGameEngine))
 }
 
 /**
   * A singleton object containing an instance of our game.
   */
 object OpenGame {
-  private lazy val game = new OpenGame
+  private lazy val game = new OpenGame()
 
   /**
     *
@@ -24,6 +24,7 @@ object OpenGame {
 
   /**
     * Sets a new screen to our game.
+    *
     * @param newScreen -  a new screen for our game.
     * @return the current (newly added) screen in the game.
     */
