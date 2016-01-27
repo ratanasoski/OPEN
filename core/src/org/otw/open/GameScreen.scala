@@ -26,7 +26,7 @@ class GameScreen(val engine: Engine) extends ScreenAdapter {
 
   override def dispose(): Unit = {
     batch.dispose()
-    super.dispose()
+    engine.dispose()
   }
 
   val transformator = new Function[Vector3, Vector2] {

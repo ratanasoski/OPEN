@@ -10,15 +10,13 @@ import org.otw.open.engine.impl.EraserGameEngine
   */
 class OpenGame extends Game {
 
-  val standPoints: List[Vector2] = List(new Vector2(0, 500), new Vector2(800, 500))
-
   override def create(): Unit = setScreen(new GameScreen(new EraserGameEngine))
 }
 
-  /**
-    * A singleton object containing an instance of our game.
-    */
-  object OpenGame {
+/**
+  * A singleton object containing an instance of our game.
+  */
+object OpenGame {
   private lazy val game = new OpenGame()
 
   /**
