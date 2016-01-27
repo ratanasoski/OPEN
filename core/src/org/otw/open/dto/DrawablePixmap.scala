@@ -17,7 +17,7 @@ class DrawablePixmap(val pixmapMask: Pixmap) extends Disposable {
     val maskTexture = new Texture(pixmapMask)
     maskTexture.bind(1)
     Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0)
-    maskTexture.draw(pixmapMask, 0, 0)
+    changeTexture(maskTexture)
     maskTexture
   }
 
@@ -50,6 +50,10 @@ class DrawablePixmap(val pixmapMask: Pixmap) extends Disposable {
     })
     drawDot(to)
 
+  }
+
+  def changeTexture(texture: Texture) = {
+    texture.draw(pixmapMask, 0, 0)
   }
 
   override def dispose() = pixmapMask.dispose()

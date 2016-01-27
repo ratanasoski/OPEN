@@ -9,6 +9,8 @@ buildscript {
         classpath 'com.github.maiflai:gradle-scalatest:0.10'
         classpath "gradle.plugin.org.scoverage:gradle-scoverage:2.0.0"
         classpath "gradle.plugin.edu.sc.seis.gradle:launch4j:1.6.1"
+        classpath "org.scalamock:scalamock-scalatest-support_2.11:3.2.2"
+
     }
 }
 
