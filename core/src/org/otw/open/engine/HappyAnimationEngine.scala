@@ -14,6 +14,10 @@ class HappyAnimationEngine extends Engine {
     timePassed = timePassed + delta
     List(new Drawing(animator.getCurrentTexture(timePassed), 464, 194))
   }
+
+  override def dispose(): Unit = {
+
+  }
 }
 
 object HappyAnimationEngine {

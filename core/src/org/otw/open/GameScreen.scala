@@ -10,13 +10,18 @@ import org.otw.open.engine.Engine
   */
 class GameScreen(val engine: Engine) extends ScreenAdapter {
 
-  val batch: SpriteBatch = new SpriteBatch
+  private val batch: SpriteBatch = new SpriteBatch
 
   override def render(delta: Float) = {
-    Gdx.gl.glClearColor(1, 0, 0, 1)
+    Gdx.gl.glClearColor(0, 1, 0, 1)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
     batch.begin
     engine.getDrawings(delta).foreach(drawing => batch.draw(drawing.image, drawing.x, drawing.y))
     batch.end
+  }
+
+  override def dispose() = {
+    batch.dispose()
+    engine.dispose()
   }
 }
