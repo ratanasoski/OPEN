@@ -30,6 +30,10 @@ class AnimatorTest extends UnitSpec {
     )
   }
 
+  test("tests that dispose method is implemented") {
+    assert(animatorToTest.dispose())
+  }
+
   def assertTextureRegions(expectedValue: TextureRegion, returnedValue: TextureRegion): Boolean = {
     returnedValue.getRegionX == expectedValue.getRegionX &&
       returnedValue.getRegionY == expectedValue.getRegionY &&
