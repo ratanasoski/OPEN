@@ -60,4 +60,11 @@ class CauseAndEffectEngineTest extends UnitSpec {
     engine.setMouseClickPositionTransformator(transformator)
     assert(engine.touchDown(0, 900, 1, 1) == false)
   }
+
+  test("when object is clicked and is animating, getDrawings should return a list with new moving object that has updated x coordinate"){
+    engine.touchDown(90,90,1,1) // mouseWasClicked will be set to true
+    val drawings = engine.getDrawings(movementDelta)
+    assert(drawings.head.x != standPoints.head.x)
+  }
+
 }
