@@ -119,6 +119,10 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     this.transformator = Some(transformator)
     true
   }
+
+  override def dispose(): Unit ={
+    objectTexture.dispose()
+  }
 }
 
 object CauseAndEffectEngine {

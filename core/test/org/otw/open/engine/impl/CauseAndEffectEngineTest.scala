@@ -1,7 +1,7 @@
 package org.otw.open.engine.impl
 
 import com.badlogic.gdx.math.{Vector2, Vector3}
-import org.junit.{Before, Assert}
+import org.junit.Assert
 import org.otw.open.dto.HorizontalMovingObject
 import org.otw.open.testconfig.UnitSpec
 
