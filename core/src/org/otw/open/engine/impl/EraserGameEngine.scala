@@ -26,7 +26,8 @@ class EraserGameEngine extends InputAdapter with Engine {
   override def getDrawings(delta: Float): List[Drawing] = {
     if (mouseMoved || foreground.isEmpty) {
       foreground = Some(pixmapMask.getMaskAsTexture)
-      if (pixmapMask.isMaskFilled) OpenGame.changeScreen(new GameScreen(new FirstGameScreenEngine))
+      if (pixmapMask.isMaskFilled)
+        OpenGame.changeScreen(new GameScreen(new CauseAndEffectEngine( 25 until 580 ,85 until 377, List(new Vector2(0, 500), new Vector2(800, 500)))))
     }
     List(new Drawing(background, 0, 0), new Drawing(foreground.get, 0, 0))
   }
