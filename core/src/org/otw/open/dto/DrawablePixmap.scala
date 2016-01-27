@@ -12,7 +12,6 @@ class DrawablePixmap(val pixmapMask: Pixmap) extends Disposable {
   private final val brushSize: Int = 160
   private final val drawColor: Color = new Color(0, 0, 0, 0)
   pixmapMask.setColor(drawColor)
-  pixmapMask.fillCircle(250, 250, brushSize)
 
   def getMaskAsTexture: Texture = {
     val maskTexture = new Texture(pixmapMask)
@@ -23,16 +22,16 @@ class DrawablePixmap(val pixmapMask: Pixmap) extends Disposable {
   }
 
   def isMaskFilled: Boolean = {
-    var finish = 0
+    var maskAlphaSum = 0
     (0 until pixmapMask.getWidth).foreach(x => {
       (0 until pixmapMask.getHeight).foreach(y => {
         val color: Color = new Color
         Color.rgba8888ToColor(color, pixmapMask.getPixel(x, y))
-        finish += color.a.toInt
+        maskAlphaSum += color.a.toInt
       })
 
     })
-    if (finish == 0) true
+    if (maskAlphaSum == 0) true
     else false
   }
 
