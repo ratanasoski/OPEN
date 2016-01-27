@@ -4,10 +4,11 @@ import org.otw.open.dto.Drawing
 import org.otw.open.engine.util.Animator
 
 /**
+  * An engine class used for displaying animation that should be static and placed in the center of the screen.
   * Created by jivanovski on 1/25/2016.
   */
-class HappyAnimationEngine extends Engine {
-  val animator = new Animator("happy-animation.atlas")
+class StaticAnimationEngine(val atlasFileName: String) extends Engine {
+  val animator = new Animator(atlasFileName)
   private var timePassed = 0f
 
   override def getDrawings(delta: Float): List[Drawing] = {
@@ -16,10 +17,6 @@ class HappyAnimationEngine extends Engine {
   }
 
   override def dispose(): Unit = {
-
+    animator.dispose()
   }
-}
-
-object HappyAnimationEngine {
-  def apply: HappyAnimationEngine = new HappyAnimationEngine
 }
