@@ -32,6 +32,8 @@
 -dontwarn java.beans.**
 -dontwarn org.mockito.**
 -dontwarn org.objenesis.**
+-dontwarn org.junit.**
+-dontwarn org.hamcrest.**
 
 -dontwarn  android.test.AndroidTestCase
 -dontwarn  android.test.AndroidTestRunner
