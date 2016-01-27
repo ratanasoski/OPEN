@@ -19,4 +19,8 @@ class FirstGameScreenEngine extends Engine {
   override def getDrawings(delta: Float): List[Drawing] = {
     List(new Drawing(new TextureRegion(img), 0, 0))
   }
+
+  override def dispose() = {
+    img.dispose()
+  }
 }
