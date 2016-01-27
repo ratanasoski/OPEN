@@ -3,7 +3,7 @@ package org.otw.open.dto
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.{Color, GL20, Pixmap, Texture}
 import com.badlogic.gdx.math.Vector2
-import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable
+import com.badlogic.gdx.utils.Disposable
 
 /**
   * Created by deftimov on 25.01.2016.
