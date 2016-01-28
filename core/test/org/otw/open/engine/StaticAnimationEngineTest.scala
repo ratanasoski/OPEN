@@ -1,6 +1,7 @@
 package org.otw.open.engine
 
 import org.otw.open.dto.Drawing
+import org.otw.open.engine.impl.StaticAnimationEngine
 import org.otw.open.engine.util.Animator
 import org.otw.open.testconfig.UnitSpec
 
