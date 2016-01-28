@@ -4,11 +4,10 @@ import com.badlogic.gdx.{Screen, Game}
 import com.badlogic.gdx.math.Vector2
 import org.otw.open.engine.impl.EraserGameEngine
 
-
 /**
   * Created by eilievska on 1/13/2016.
   */
-class OpenGame extends Game {
+class OpenGame private() extends Game {
 
   override def create(): Unit = setScreen(new GameScreen(new EraserGameEngine))
 }
