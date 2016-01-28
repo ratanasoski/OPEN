@@ -18,6 +18,7 @@ abstract class UnitSpec extends FunSuite with Matchers with PrivateMethodTester 
   new HeadlessApplication(new TestApplicationRunner, conf)
 
   Gdx.gl = mock(classOf[GL20])
+  Gdx.gl20 = new MockGL20
 
   Gdx.graphics = new MockGdxGraphics
 
