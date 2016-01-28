@@ -34,6 +34,11 @@
 -dontwarn org.objenesis.**
 -dontwarn org.junit.**
 -dontwarn org.hamcrest.**
+-dontwarn org.scalamock.**
+-dontwarn scala.reflect.**
+-dontwarn org.scalatest.**
+-dontwarn org.scalactic.**
+
 
 -dontwarn  android.test.AndroidTestCase
 -dontwarn  android.test.AndroidTestRunner
