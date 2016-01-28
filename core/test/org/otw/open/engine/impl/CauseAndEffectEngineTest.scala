@@ -61,10 +61,16 @@ class CauseAndEffectEngineTest extends UnitSpec {
     assert(engine.touchDown(0, 900, 1, 1) == false)
   }
 
-  test("when object is clicked and is animating, getDrawings should return a list with new moving object that has updated x coordinate"){
-    engine.touchDown(90,90,1,1) // mouseWasClicked will be set to true
+  test("when object is clicked and is animating, getDrawings should return a list with new moving object that has updated x coordinate") {
+    engine.touchDown(90, 90, 1, 1) // mouseWasClicked will be set to true
     val drawings = engine.getDrawings(movementDelta)
-    assert(drawings.head.x != standPoints.head.x)
+    assert(drawings.reverse.head.x != standPoints.head.x.toInt)
+  }
+
+  test("when getDrawings is invoked, it should return a list of two drawings") {
+    engine.touchDown(90, 90, 1, 1) // mouseWasClicked will be set to true
+    val drawings = engine.getDrawings(movementDelta)
+    assert(drawings.size == 2)
   }
 
 }

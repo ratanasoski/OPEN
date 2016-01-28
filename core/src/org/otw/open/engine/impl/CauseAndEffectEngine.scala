@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.{Vector3, Vector2}
 import com.badlogic.gdx.{Gdx, InputAdapter}
 import org.otw.open.dto.{HorizontalMovingObject, Drawing}
 import org.otw.open.engine.Engine
+import org.otw.open.controllers.{CauseAndEffectFinishedSuccessfully, ScreenController, Event}
 
 /**
   * CauseAndEffectEngine - handles horizontal object movement
@@ -28,9 +29,13 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
 
   /**
     * A texture is a bitmap image that gets drawn on the screen through mapping.
-    * Car texture
     */
   private val objectTexture = new Texture(Gdx.files.internal("car.jpeg"))
+
+  /**
+    * The background texture where the object moves on.
+    */
+  private val backgroundTexture = new Texture(Gdx.files.internal("street-background.png"))
 
   /**
     * Time interval on which the movingObject moves.
@@ -50,11 +55,13 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
   private val objectStartingPoint = objectStandPoints.head
 
   /**
-    * Car object.
+    * Moving object.
     */
   private var movingObject: HorizontalMovingObject = new HorizontalMovingObject(objectStartingPoint.x.toInt, objectStartingPoint.y.toInt, DELTA_MOVEMENT)
 
-
+  /**
+    * Transforms the click coordinates based on the screen size. Uses the camera transformation.
+    */
   var transformator: Option[((Vector3) => Vector2)] = None
 
   /**
@@ -100,15 +107,18 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
   }
 
   override def getDrawings(delta: Float): List[Drawing] = {
-
-    if (mouseWasClicked && !objectShouldStopAnimating(movingObject.x, movingObject.y)) {
-      timer = timer - delta
-      if (timer < 0) {
-        timer = MOVE_TIME_IN_SECONDS
-        movingObject = movingObject.moveObject
+    if (mouseWasClicked) {
+      if (objectShouldStopAnimating(movingObject.x, movingObject.y))
+        ScreenController.dispatchEvent(CauseAndEffectFinishedSuccessfully)
+      else {
+        timer = timer - delta
+        if (timer < 0) {
+          timer = MOVE_TIME_IN_SECONDS
+          movingObject = movingObject.moveObject
+        }
       }
     }
-    List(new Drawing(new TextureRegion(objectTexture), movingObject.x, movingObject.y))
+    List(new Drawing(backgroundTexture, 0, 0), new Drawing(objectTexture, movingObject.x, movingObject.y))
   }
 
   /**
@@ -120,9 +130,11 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     true
   }
 
-  override def dispose(): Unit ={
+  override def dispose(): Unit = {
     objectTexture.dispose()
+    backgroundTexture.dispose()
   }
+
 }
 
 object CauseAndEffectEngine {
