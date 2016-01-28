@@ -28,4 +28,5 @@ class StaticAnimationEngineTest extends UnitSpec {
   test("test if dispose method is implemented") {
     assert(animatorToTest.dispose())
   }
+
 }
