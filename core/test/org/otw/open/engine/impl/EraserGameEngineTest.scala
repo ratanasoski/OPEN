@@ -1,13 +1,14 @@
 package org.otw.open.engine.impl
 
+import org.junit.Assert
 import org.otw.open.dto.Drawing
-import org.otw.open.testconfig.UnitSpec;
-import org.junit.Assert;
+import org.otw.open.testconfig.UnitSpec
+import org.scalamock.scalatest.MockFactory
 
 /**
   * Created by deftimov on 26.01.2016.
   */
-class EraserGameEngineTest extends UnitSpec {
+class EraserGameEngineTest extends UnitSpec with MockFactory {
 
   val eraserGameEngine: EraserGameEngine = new EraserGameEngine
 
