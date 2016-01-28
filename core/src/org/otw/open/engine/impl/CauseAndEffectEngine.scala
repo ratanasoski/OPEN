@@ -28,6 +28,16 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
   private var mouseWasClicked: Boolean = false
 
   /**
+    * Max number of failed attempts allowed
+    */
+  private val maxFailedAttempts = 3
+
+  /**
+    * Counter for the number of failed attempts
+    */
+  private var numOfFailedAttempts = 0
+
+  /**
     * A texture is a bitmap image that gets drawn on the screen through mapping.
     */
   private val objectTexture = new Texture(Gdx.files.internal("car.jpeg"))
@@ -52,6 +62,9 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     */
   private val DELTA_MOVEMENT: Int = 30
 
+  /**
+    * The starting point of the object to be animated
+    */
   private val objectStartingPoint = objectStandPoints.head
 
   /**
@@ -103,7 +116,10 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
       mouseWasClicked = true
       true
     }
-    else false
+    else {
+      numOfFailedAttempts +=1
+      false
+    }
   }
 
   override def getDrawings(delta: Float): List[Drawing] = {
