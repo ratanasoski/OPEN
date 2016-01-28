@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.{InputAdapter, Gdx, InputProcessor}
 import org.otw.open.dto.{DrawablePixmap, Drawing}
 import org.otw.open.engine.Engine
+import org.otw.open.controllers.{EraserGameFinished, ScreenController, Event}
 import org.otw.open.{GameScreen, OpenGame}
 
 /**
@@ -15,7 +16,7 @@ import org.otw.open.{GameScreen, OpenGame}
 class EraserGameEngine extends InputAdapter with Engine {
   Gdx.input.setInputProcessor(this)
   private val pixmapMask: DrawablePixmap = new DrawablePixmap(new Pixmap(Gdx.files.internal("leaves.png")))
-  private val backgroundTexture: Texture = new Texture(Gdx.files.internal("street.jpg"))
+  private val backgroundTexture: Texture = new Texture(Gdx.files.internal("street.png"))
   private val maskTexture: Texture = pixmapMask.initializePixmapDrawingOntoTexture
 
   private var lastPointerPosition: Option[Vector2] = None
@@ -30,7 +31,7 @@ class EraserGameEngine extends InputAdapter with Engine {
     if (mouseMoved) {
       pixmapMask.drawOnTexture(maskTexture)
       if (pixmapMask.isPixmapMaskTransparent)
-        OpenGame.changeScreen(new GameScreen(new CauseAndEffectEngine(25 until 580, 85 until 377, List(new Vector2(0, 500), new Vector2(800, 500)))))
+        ScreenController.dispatchEvent(EraserGameFinished)
     }
     List(new Drawing(backgroundTexture, 0, 0), new Drawing(maskTexture, 0, 0))
   }
@@ -66,4 +67,5 @@ class EraserGameEngine extends InputAdapter with Engine {
     backgroundTexture.dispose
     maskTexture.dispose
   }
+
 }
