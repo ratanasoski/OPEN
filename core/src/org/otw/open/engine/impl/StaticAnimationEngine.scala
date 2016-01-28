@@ -1,6 +1,7 @@
-package org.otw.open.engine
+package org.otw.open.engine.impl
 
 import org.otw.open.dto.Drawing
+import org.otw.open.engine.Engine
 import org.otw.open.engine.util.Animator
 
 /**
