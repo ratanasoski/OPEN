@@ -9,8 +9,6 @@ buildscript {
         classpath 'com.github.maiflai:gradle-scalatest:0.10'
         classpath "gradle.plugin.org.scoverage:gradle-scoverage:2.0.0"
         classpath "gradle.plugin.edu.sc.seis.gradle:launch4j:1.6.1"
-        classpath "org.scalamock:scalamock-scalatest-support_2.11:3.2.2"
-
     }
 }
 
@@ -93,6 +91,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "org.scala-lang:scala-library:2.11.7"
+
 
         compile "junit:junit:4.+"
         compile "org.mockito:mockito-all:1.9.+"

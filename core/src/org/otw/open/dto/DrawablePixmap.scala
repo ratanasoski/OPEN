@@ -7,21 +7,44 @@ import com.badlogic.gdx.utils.Disposable
 
 /**
   * Created by deftimov on 25.01.2016.
+  * Wrapper for the drawing actions on the PixmapMask.
+  *
+  * @param pixmapMask
   */
 class DrawablePixmap(val pixmapMask: Pixmap) extends Disposable {
-  private final val brushSize: Int = 160
-  private final val drawColor: Color = new Color(0, 0, 0, 0)
-  pixmapMask.setColor(drawColor)
 
-  def getMaskAsTexture: Texture = {
-    val maskTexture = new Texture(pixmapMask)
-    maskTexture.bind(1)
-    Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0)
-    changeTexture(maskTexture)
+  private final val brushSize: Int = 160
+
+  /** maskTexture created from the pixmap */
+  private val maskTexture = new Texture(pixmapMask)
+
+  /** binds and sets the maskTexture to TEXTURE1 as active */
+  maskTexture.bind(1)
+
+  /** Resets the SpriteBatch to TEXTURE0,* otherwise it will automatically bind ti the current active texture */
+  Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0)
+
+  /** Draws the initial pixmap onto the texture
+    *
+    * @return maskTexture */
+  def initializePixmapDrawingOntoTexture: Texture = {
+    drawOnTexture(maskTexture)
     maskTexture
   }
 
-  def isMaskFilled: Boolean = {
+  /** Draws the pixmap onto the texture
+    *
+    * @param texture
+    **/
+  def drawOnTexture(texture: Texture) = {
+    texture.draw(pixmapMask, 0, 0)
+  }
+
+  /**
+    * @return true if if the pixmapMask is fully transparent
+    *         false otherwise
+    **/
+  def isPixmapMaskTransparent: Boolean = {
     var maskAlphaSum = 0
     (0 until pixmapMask.getWidth).foreach(x => {
       (0 until pixmapMask.getHeight).foreach(y => {
@@ -35,25 +58,29 @@ class DrawablePixmap(val pixmapMask: Pixmap) extends Disposable {
     else false
   }
 
-  def drawDot(spot: Vector2): Unit = {
+  /** Draws a circle on the spot's x and y coordinates
+    *
+    * @param spot*/
+  private def drawDot(spot: Vector2): Unit = {
     pixmapMask.fillCircle(spot.x.toInt, spot.y.toInt, brushSize)
 
   }
 
+  /** Linear interpolated drawing(Lerp) for smooth drawing of the brush
+    *
+    * @param from
+    * @param to
+    **/
   def drawLerped(from: Vector2, to: Vector2): Unit = {
-    val dist: Float = to.dst(from)
-    val alphaStep = brushSize / (8f * dist)
+    val distance: Float = to.dst(from)
+    val alphaStep = brushSize / (8f * distance)
     val seq = 0f to 1f by alphaStep
-    seq.foreach(currentFloat => {
-      val lerped: Vector2 = from.lerp(to, currentFloat)
+    seq.foreach(currentStep => {
+      val lerped: Vector2 = from.lerp(to, currentStep)
       drawDot(lerped)
     })
     drawDot(to)
 
-  }
-
-  def changeTexture(texture: Texture) = {
-    texture.draw(pixmapMask, 0, 0)
   }
 
   override def dispose() = pixmapMask.dispose()
