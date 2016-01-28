@@ -22,6 +22,7 @@ class GameScreen(val engine: Engine) extends ScreenAdapter {
     batch.begin
     engine.getDrawings(delta).foreach(drawing => batch.draw(drawing.image, drawing.x, drawing.y))
     batch.end
+
   }
 
   override def dispose(): Unit = {

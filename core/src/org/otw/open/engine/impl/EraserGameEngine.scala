@@ -18,20 +18,28 @@ class EraserGameEngine extends InputAdapter with Engine {
 
   private val pixmapMask: DrawablePixmap = new DrawablePixmap(new Pixmap(Gdx.files.internal("leaves.png")))
   private val background: Texture = new Texture(Gdx.files.internal("street.jpg"))
-  private var foreground: Option[Texture] = None
+  private val foreground: Texture = pixmapMask.getMaskAsTexture
   private var mouseMoved = false
 
   Pixmap.setBlending(Blending.None)
 
   override def getDrawings(delta: Float): List[Drawing] = {
-    if (mouseMoved || foreground.isEmpty) {
-      foreground = Some(pixmapMask.getMaskAsTexture)
+    if (mouseMoved) {
+      pixmapMask.changeTexture(foreground)
       if (pixmapMask.isMaskFilled)
-        OpenGame.changeScreen(new GameScreen(new CauseAndEffectEngine( 25 until 580 ,85 until 377, List(new Vector2(0, 500), new Vector2(800, 500)))))
+        OpenGame.changeScreen(new GameScreen(new CauseAndEffectEngine(25 until 580, 85 until 377, List(new Vector2(0, 500), new Vector2(800, 500)))))
     }
-    List(new Drawing(background, 0, 0), new Drawing(foreground.get, 0, 0))
+    List(new Drawing(background, 0, 0), new Drawing(foreground, 0, 0))
   }
 
+  /**
+    * returns true if the mouse was moved from one point to another,
+    * otherwise returns false if the mouse is idle
+    *
+    * @param screenX x current coordinate of the pointer
+    * @param screenY y current coordinate of the pointer
+    * @return true or false
+    */
   override def mouseMoved(screenX: Int, screenY: Int): Boolean = {
     val currentPosition: Vector2 = new Vector2(screenX, screenY)
     val lastPosition = lastPointerPosition.getOrElse(currentPosition)
@@ -47,9 +55,14 @@ class EraserGameEngine extends InputAdapter with Engine {
     }
   }
 
+  /**
+    * Disposes of the textures.
+    * The textures are not collected by the garbage collector.
+    *
+    **/
   override def dispose() = {
     pixmapMask.dispose
     background.dispose
-    if (foreground.nonEmpty) foreground.get.dispose
+    foreground.dispose
   }
 }

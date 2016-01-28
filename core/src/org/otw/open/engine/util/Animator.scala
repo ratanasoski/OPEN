@@ -23,5 +23,13 @@ class Animator(val atlasFileName: String) {
     */
   def getCurrentTexture(timePassed: Float) = animation.getKeyFrame(timePassed, true)
 
+  /**
+    * Disposes all disposable resources.
+    * @return true if the method is implemented.
+    */
+  def dispose(): Boolean = {
+    atlas.dispose()
+    true
+  }
 }
 
