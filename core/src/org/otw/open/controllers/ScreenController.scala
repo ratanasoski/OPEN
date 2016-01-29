@@ -22,7 +22,7 @@ object ScreenController {
     val engine = event match {
       case EraserGameFinished => new CauseAndEffectEngine(25 until 580, 85 until 377, List(new Vector2(0, 500), new Vector2(800, 500)))
       case CauseAndEffectFinishedSuccessfully => new StaticAnimationEngine("happy-animation.atlas")
-      case CauseAndEffectFinishedUnsuccessfully => new StaticAnimationEngine("unhappy-animation.atlas")
+      case CauseAndEffectFinishedUnsuccessfully => new StaticAnimationEngine("happy-animation.atlas")
     }
     openGame.changeScreen(new GameScreen(engine))
     engine
