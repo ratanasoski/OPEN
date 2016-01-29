@@ -17,12 +17,12 @@ class StaticAnimationEngineTest extends UnitSpec {
 
   test("when getDrawings is invoked with an empty list") {
     val drawings: List[Drawing] = staticAnimationEngine.getDrawings(0)
-    assert(drawings.size == 1)
+    assert(drawings.size == 2)
   }
 
   test("when getDrawings is invoked with one drawing") {
     val drawings: List[Drawing] = staticAnimationEngine.getDrawings(0.4f)
-    assert(drawings.size == 1)
+    assert(drawings.size == 2)
   }
 
   test("test if dispose method is implemented") {
