@@ -2,6 +2,8 @@ package org.otw.open
 
 import com.badlogic.gdx.{Game, Screen}
 import org.mockito.Mockito.mock
+import org.otw.open.engine.Engine
+import org.otw.open.engine.impl.EraserGameEngine
 import org.otw.open.testconfig.UnitSpec
 
 /**
@@ -26,6 +28,17 @@ class OpenGameTest extends UnitSpec {
     val setScreen: Screen = OpenGame.changeScreen(mockScreen)
     assert(game.getScreen == mockScreen)
     assert(setScreen == mockScreen)
+  }
+
+  test("when create() method of the OpenGame class instance is invoked, " +
+    "a new screen should be created with the EraserGameEngine as engine") {
+    val game: OpenGame = OpenGame.getGame
+    game.create()
+    val returnedScreenEngine: Engine = game.getScreen match {
+      case s: GameScreen => s.engine
+      case _ => throw new scala.ClassCastException
+    }
+    assert(returnedScreenEngine.isInstanceOf[EraserGameEngine])
   }
 
 }

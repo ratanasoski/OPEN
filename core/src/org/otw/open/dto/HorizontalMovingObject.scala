@@ -1,7 +1,5 @@
 package org.otw.open.dto
 
-import org.otw.open.engine.util.Animator
-
 /**
   * The HorizontalMovingObject model
   * x the x coordinate of the object
