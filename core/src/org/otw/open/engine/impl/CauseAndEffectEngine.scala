@@ -11,6 +11,7 @@ import com.badlogic.gdx.{Gdx, InputAdapter}
 import org.otw.open.dto.{HorizontalMovingObject, Drawing}
 import org.otw.open.engine.Engine
 import org.otw.open.controllers.{CauseAndEffectFinishedUnsuccessfully, CauseAndEffectFinishedSuccessfully, ScreenController, Event}
+import org.otw.open.engine.util.Animator
 
 /**
   * CauseAndEffectEngine - handles horizontal object movement
@@ -23,83 +24,54 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
   Gdx.input.setInputProcessor(this)
 
   /**
-    * Boolean flag that is set to true when object is clicked
-    */
-  private var objectClicked: Boolean = false
-
-  /**
     * Max number of failed attempts allowed
     */
   private val maxFailedAttempts = 3
-
-  /**
-    * Counter for the number of failed attempts
-    */
-  private var numOfFailedAttempts = 0
-
-  /**
-    * A texture is a bitmap image that gets drawn on the screen through mapping.
-    */
-  private val objectTexture = new Texture(Gdx.files.internal("car.jpeg"))
-
   /**
     * The background texture where the object moves on.
     */
   private val backgroundTexture = new Texture(Gdx.files.internal("street-background.png"))
-
   /**
     * Time interval on which the movingObject moves.
     */
   private val MOVE_TIME_IN_SECONDS: Float = 0.1F
-
-  /**
-    * Current time.
-    */
-  private var timer = MOVE_TIME_IN_SECONDS
-
   /**
     * Movement of the object
     */
   private val DELTA_MOVEMENT: Int = 30
-
   /**
     * The starting point of the object to be animated
     */
   private val objectStartingPoint = objectStandPoints.head
-
+  /**
+    * Animator object
+    */
+  private val animator: Animator = new Animator("vibrating-car.atlas")
+  /**
+    * Transforms the click coordinates based on the screen size. Uses the camera transformation.
+    */
+  var transformator: Option[((Vector3) => Vector2)] = None
+  /**
+    * Boolean flag that is set to true when object is clicked
+    */
+  private var objectClicked: Boolean = false
+  /**
+    * Counter for the number of failed attempts
+    */
+  private var numOfFailedAttempts = 0
+  /**
+    * Current time.
+    */
+  private var timer = MOVE_TIME_IN_SECONDS
   /**
     * Moving object.
     */
   private var movingObject: HorizontalMovingObject = new HorizontalMovingObject(objectStartingPoint.x.toInt, objectStartingPoint.y.toInt, DELTA_MOVEMENT)
 
   /**
-    * Transforms the click coordinates based on the screen size. Uses the camera transformation.
+    * Timer for the vibrating object
     */
-  var transformator: Option[((Vector3) => Vector2)] = None
-
-  /**
-    * @param x x coordinate of mouse click
-    * @param y y coordinate of mouse click
-    * @return true if movingObject object is clicked
-    */
-  def objectIsClicked(x: Int, y: Int): Boolean = {
-    val transformedPosition: Vector2 = transformator.get(new Vector3(x, y, 0))
-    if (xRange.contains(transformedPosition.x.toInt)
-      && yRange.contains(transformedPosition.y.toInt)) {
-      objectClicked = true
-      true
-    }
-    else false
-  }
-
-  /**
-    * @param carX x coordinate of the movingObject
-    * @param carY y coordinate of the movingObject
-    * @return true if movingObject has reached the end point
-    */
-  def objectShouldStopAnimating(carX: Int, carY: Int): Boolean = {
-    if (carX >= objectStandPoints.reverse.head.x) true else false
-  }
+  private var animationTime = 0f
 
   /**
     * Method that handles mouse click on screen
@@ -118,7 +90,23 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     }
   }
 
+  /**
+    * @param x x coordinate of mouse click
+    * @param y y coordinate of mouse click
+    * @return true if movingObject object is clicked
+    */
+  def objectIsClicked(x: Int, y: Int): Boolean = {
+    val transformedPosition: Vector2 = transformator.get(new Vector3(x, y, 0))
+    if (xRange.contains(transformedPosition.x.toInt)
+      && yRange.contains(transformedPosition.y.toInt)) {
+      objectClicked = true
+      true
+    }
+    else false
+  }
+
   override def getDrawings(delta: Float): List[Drawing] = {
+    animationTime += delta
     if (objectClicked) {
       if (objectShouldStopAnimating(movingObject.x, movingObject.y))
         ScreenController.dispatchEvent(CauseAndEffectFinishedSuccessfully)
@@ -130,7 +118,16 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
         }
       }
     }
-    List(new Drawing(backgroundTexture, 0, 0), new Drawing(objectTexture, movingObject.x, movingObject.y))
+    List(new Drawing(backgroundTexture, 0, 0), new Drawing(animator.getCurrentTexture(animationTime), movingObject.x, movingObject.y))
+  }
+
+  /**
+    * @param carX x coordinate of the movingObject
+    * @param carY y coordinate of the movingObject
+    * @return true if movingObject has reached the end point
+    */
+  def objectShouldStopAnimating(carX: Int, carY: Int): Boolean = {
+    if (carX >= objectStandPoints.reverse.head.x) true else false
   }
 
   /**
@@ -143,8 +140,8 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
   }
 
   override def dispose(): Unit = {
-    objectTexture.dispose()
     backgroundTexture.dispose()
+    animator.dispose()
   }
 
 }
