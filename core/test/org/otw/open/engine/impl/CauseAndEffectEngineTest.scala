@@ -1,14 +1,13 @@
 package org.otw.open.engine.impl
 
 import com.badlogic.gdx.math.{Vector2, Vector3}
-import org.junit.Assert
+import org.otw.open.controllers.{CauseAndEffectFinishedSuccessfully, CauseAndEffectFinishedUnsuccessfully, ScreenController}
 import org.otw.open.dto.HorizontalMovingObject
-import org.otw.open.testconfig.UnitSpec
-
+import org.otw.open.testconfig._
 /**
   * Created by smirakovska on 1/26/2016.
   */
-class CauseAndEffectEngineTest extends UnitSpec {
+class CauseAndEffectEngineTest extends UnitSpec{
 
   val xRange: Range = 25 until 580
   val yRange: Range = 85 until 377
@@ -16,8 +15,6 @@ class CauseAndEffectEngineTest extends UnitSpec {
   val movementDelta: Int = 20
 
   val causeAndEffectEngine: CauseAndEffectEngine = new CauseAndEffectEngine(xRange, yRange, standPoints)
-
-  val engine = CauseAndEffectEngine.apply(xRange, yRange, standPoints)
 
   val transformator = new Function[Vector3, Vector2] {
     override def apply(vector: Vector3): Vector2 = {
@@ -27,12 +24,12 @@ class CauseAndEffectEngineTest extends UnitSpec {
 
   test("when objectShouldStopAnimating is invoked it should return false for object not at the end point") {
     val testObject = new HorizontalMovingObject(0, 0, movementDelta)
-    Assert.assertFalse(causeAndEffectEngine.objectShouldStopAnimating(testObject.x, testObject.y))
+   assert(causeAndEffectEngine.objectShouldStopAnimating(testObject.x, testObject.y) == false)
   }
 
   test("when objectShouldStopAnimating is invoked it should return true for object at the end point") {
     val testObject = new HorizontalMovingObject(800, 500, movementDelta)
-    Assert.assertTrue(causeAndEffectEngine.objectShouldStopAnimating(testObject.x, testObject.y))
+    assert(causeAndEffectEngine.objectShouldStopAnimating(testObject.x, testObject.y))
   }
 
   test("when CauseAndEffectEngine object's apply method is invoked new CauseAndEffectEngine instance should be returned") {
@@ -41,36 +38,49 @@ class CauseAndEffectEngineTest extends UnitSpec {
   }
 
   test("when objectIsClicked is invoked should return false if object is not clicked") {
-    engine.setMouseClickPositionTransformator(transformator)
-    assert(engine.objectIsClicked(50, 60) == false)
+    causeAndEffectEngine.setMouseClickPositionTransformator(transformator)
+    assert(causeAndEffectEngine.objectIsClicked(50, 60) == false)
   }
 
 
   test("when objectIsClicked is invoked should return true if object is clicked") {
-    engine.setMouseClickPositionTransformator(transformator)
-    assert(engine.objectIsClicked(90, 90) == true)
+    causeAndEffectEngine.setMouseClickPositionTransformator(transformator)
+    assert(causeAndEffectEngine.objectIsClicked(90, 90) == true)
   }
 
   test("when mouse is clicked, should return true if object was clicked") {
-    engine.setMouseClickPositionTransformator(transformator)
-    assert(engine.touchDown(95, 120, 1, 1) == true)
+    causeAndEffectEngine.setMouseClickPositionTransformator(transformator)
+    assert(causeAndEffectEngine.touchDown(95, 120, 1, 1) == true)
   }
 
   test("when mouse is clicked, should return false if object was not clicked") {
-    engine.setMouseClickPositionTransformator(transformator)
-    assert(engine.touchDown(0, 900, 1, 1) == false)
+    causeAndEffectEngine.setMouseClickPositionTransformator(transformator)
+    assert(causeAndEffectEngine.touchDown(0, 900, 1, 1) == false)
   }
 
   test("when object is clicked and is animating, getDrawings should return a list with new moving object that has updated x coordinate") {
-    engine.touchDown(90, 90, 1, 1) // mouseWasClicked will be set to true
-    val drawings = engine.getDrawings(movementDelta)
+    causeAndEffectEngine.touchDown(90, 90, 1, 1) // mouseWasClicked will be set to true
+    val drawings = causeAndEffectEngine.getDrawings(movementDelta)
     assert(drawings.reverse.head.x != standPoints.head.x.toInt)
   }
 
   test("when getDrawings is invoked, it should return a list of two drawings") {
-    engine.touchDown(90, 90, 1, 1) // mouseWasClicked will be set to true
-    val drawings = engine.getDrawings(movementDelta)
+    causeAndEffectEngine.touchDown(90, 90, 1, 1) // mouseWasClicked will be set to true
+    val drawings = causeAndEffectEngine.getDrawings(movementDelta)
     assert(drawings.size == 2)
   }
 
+  test("when 3 failed attempts are made to click the object, screen with unhappy animation is shown"){
+    causeAndEffectEngine.touchDown(600,600,1,1)
+    causeAndEffectEngine.touchDown(600,600,1,1)
+    causeAndEffectEngine.touchDown(600,600,1,1)
+    assert(ScreenController.dispatchEvent(CauseAndEffectFinishedUnsuccessfully).isInstanceOf[StaticAnimationEngine] )
+  }
+
+  test("when object is clicked and animation is finished, screen with happy animation is shown"){
+    causeAndEffectEngine.touchDown(600,600,1,1)
+    causeAndEffectEngine.touchDown(600,600,1,1)
+    causeAndEffectEngine.touchDown(600,600,1,1)
+    assert(ScreenController.dispatchEvent(CauseAndEffectFinishedSuccessfully).isInstanceOf[StaticAnimationEngine] )
+  }
 }

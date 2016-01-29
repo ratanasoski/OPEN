@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.{Vector3, Vector2}
 import com.badlogic.gdx.{Gdx, InputAdapter}
 import org.otw.open.dto.{HorizontalMovingObject, Drawing}
 import org.otw.open.engine.Engine
-import org.otw.open.controllers.{CauseAndEffectFinishedSuccessfully, ScreenController, Event}
+import org.otw.open.controllers.{CauseAndEffectFinishedUnsuccessfully, CauseAndEffectFinishedSuccessfully, ScreenController, Event}
 
 /**
   * CauseAndEffectEngine - handles horizontal object movement
@@ -104,7 +104,7 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
   }
 
   /**
-    * Method that handels mouse click on screen
+    * Method that handles mouse click on screen
     * @param screenX x coordinate of the mouse click
     * @param screenY y coordinate of the mouse click
     * @param pointer
@@ -118,6 +118,7 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     }
     else {
       numOfFailedAttempts +=1
+      if(numOfFailedAttempts == 3) ScreenController.dispatchEvent(CauseAndEffectFinishedUnsuccessfully)
       false
     }
   }
