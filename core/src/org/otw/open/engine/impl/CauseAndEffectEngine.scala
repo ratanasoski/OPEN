@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.{Vector3, Vector2}
 import com.badlogic.gdx.{Gdx, InputAdapter}
 import org.otw.open.dto.{HorizontalMovingObject, Drawing}
 import org.otw.open.engine.Engine
-import org.otw.open.controllers.{CauseAndEffectFinishedSuccessfully, ScreenController, Event}
+import org.otw.open.controllers.{CauseAndEffectFinishedUnsuccessfully, CauseAndEffectFinishedSuccessfully, ScreenController, Event}
 
 /**
   * CauseAndEffectEngine - handles horizontal object movement
@@ -26,6 +26,16 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     * Boolean flag that is set to true when object is clicked
     */
   private var mouseWasClicked: Boolean = false
+
+  /**
+    * Max number of failed attempts allowed
+    */
+  private val maxFailedAttempts = 3
+
+  /**
+    * Counter for the number of failed attempts
+    */
+  private var numOfFailedAttempts = 0
 
   /**
     * A texture is a bitmap image that gets drawn on the screen through mapping.
@@ -52,6 +62,9 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     */
   private val DELTA_MOVEMENT: Int = 30
 
+  /**
+    * The starting point of the object to be animated
+    */
   private val objectStartingPoint = objectStandPoints.head
 
   /**
@@ -91,7 +104,7 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
   }
 
   /**
-    * Method that handels mouse click on screen
+    * Method that handles mouse click on screen
     * @param screenX x coordinate of the mouse click
     * @param screenY y coordinate of the mouse click
     * @param pointer
@@ -103,7 +116,11 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
       mouseWasClicked = true
       true
     }
-    else false
+    else {
+      numOfFailedAttempts +=1
+      if(numOfFailedAttempts == 3) ScreenController.dispatchEvent(CauseAndEffectFinishedUnsuccessfully)
+      false
+    }
   }
 
   override def getDrawings(delta: Float): List[Drawing] = {
