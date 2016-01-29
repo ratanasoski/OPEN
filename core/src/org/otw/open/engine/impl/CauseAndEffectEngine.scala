@@ -25,7 +25,7 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
   /**
     * Boolean flag that is set to true when object is clicked
     */
-  private var mouseWasClicked: Boolean = false
+  private var objectClicked: Boolean = false
 
   /**
     * Max number of failed attempts allowed
@@ -84,9 +84,9 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     */
   def objectIsClicked(x: Int, y: Int): Boolean = {
     val transformedPosition: Vector2 = transformator.get(new Vector3(x, y, 0))
-    val newClickY = Gdx.graphics.getHeight - transformedPosition.y.toInt
     if (xRange.contains(transformedPosition.x.toInt)
       && yRange.contains(transformedPosition.y.toInt)) {
+      objectClicked = true
       true
     }
     else false
@@ -98,9 +98,7 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     * @return true if movingObject has reached the end point
     */
   def objectShouldStopAnimating(carX: Int, carY: Int): Boolean = {
-    if (carX >= objectStandPoints.reverse.head.x) // end point
-      true
-    else false
+    if (carX >= objectStandPoints.reverse.head.x) true else false
   }
 
   /**
@@ -112,19 +110,16 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     * @return true if method is overridden
     */
   override def touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean = {
-    if (objectIsClicked(screenX, screenY)) {
-      mouseWasClicked = true
-      true
-    }
+    if (objectIsClicked(screenX, screenY)) true
     else {
-      numOfFailedAttempts +=1
-      if(numOfFailedAttempts == 3) ScreenController.dispatchEvent(CauseAndEffectFinishedUnsuccessfully)
+      numOfFailedAttempts += 1
+      if (numOfFailedAttempts == 3 && !objectClicked) ScreenController.dispatchEvent(CauseAndEffectFinishedUnsuccessfully)
       false
     }
   }
 
   override def getDrawings(delta: Float): List[Drawing] = {
-    if (mouseWasClicked) {
+    if (objectClicked) {
       if (objectShouldStopAnimating(movingObject.x, movingObject.y))
         ScreenController.dispatchEvent(CauseAndEffectFinishedSuccessfully)
       else {
