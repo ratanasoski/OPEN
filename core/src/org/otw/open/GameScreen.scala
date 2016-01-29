@@ -30,7 +30,7 @@ class GameScreen(val engine: Engine) extends ScreenAdapter {
     engine.dispose()
   }
 
-  val transformator = new Function[Vector3, Vector2] {
+  val transformator: (Vector3 => Vector2) = new Function[Vector3, Vector2] {
     override def apply(vector: Vector3): Vector2 = {
       camera.unproject(vector)
       new Vector2(vector.x, vector.y)
