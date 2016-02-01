@@ -14,7 +14,7 @@ class Animator(val atlasFileName: String) {
   private val atlas = new TextureAtlas(Gdx.files.internal(atlasFileName))
 
   /*animation setup*/
-  private val animation = new Animation(1 / 5f, atlas.getRegions)
+  private val animation = new Animation(1 / 7f, atlas.getRegions)
 
   /**
     *
