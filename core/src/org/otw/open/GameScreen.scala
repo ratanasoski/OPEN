@@ -17,7 +17,7 @@ class GameScreen(val engine: Engine) extends ScreenAdapter {
 
   override def render(delta: Float) = {
     camera.update
-    Gdx.gl20.glClearColor(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, Color.WHITE.a)
+    Gdx.gl.glClearColor(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, Color.WHITE.a)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
     batch.begin
     engine.getDrawings(delta).foreach(drawing => batch.draw(drawing.image, drawing.x, drawing.y))
