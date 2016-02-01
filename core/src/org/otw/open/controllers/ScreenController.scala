@@ -18,9 +18,9 @@ object ScreenController {
     */
   def dispatchEvent(event: Event): Engine = {
     val engine = event match {
-      case EraserGameFinished => new CauseAndEffectEngine(101 until 337, 299 until 402, List(new Vector2(0, 320), new Vector2(850, 320)))
+      case EraserGameFinished => new CauseAndEffectEngine(101 until 337, 299 until 402, List(new Vector2(0, 320), new Vector2(1000, 320)))
       case CauseAndEffectFinishedSuccessfully => new StaticAnimationEngine("happy-animation.atlas")
-      case CauseAndEffectFinishedUnsuccessfully => new StaticAnimationEngine("happy-animation.atlas")
+      case CauseAndEffectFinishedUnsuccessfully => new StaticAnimationEngine("unhappy-animation.atlas")
     }
     OpenGame.changeScreen(new GameScreen(engine))
     engine
