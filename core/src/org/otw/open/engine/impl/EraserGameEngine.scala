@@ -18,7 +18,6 @@ class EraserGameEngine extends InputAdapter with Engine {
   private val pixmapMask: DrawablePixmap = new DrawablePixmap(new Pixmap(Gdx.files.internal("leaves.png")))
   private val backgroundTexture: Texture = new Texture(Gdx.files.internal("street.png"))
   private val maskTexture: Texture = pixmapMask.initializePixmapDrawingOntoTexture
-
   private var lastPointerPosition: Option[Vector2] = None
   private var mouseMoved = false
 
@@ -30,7 +29,7 @@ class EraserGameEngine extends InputAdapter with Engine {
   override def getDrawings(delta: Float): List[Drawing] = {
     if (mouseMoved) {
       pixmapMask.drawOnTexture(maskTexture)
-      if (pixmapMask.isPixmapMaskTransparent)
+      if (pixmapMask.isTransparent)
         ScreenController.dispatchEvent(EraserGameFinished)
     }
     List(new Drawing(backgroundTexture, 0, 0), new Drawing(maskTexture, 0, 0))
