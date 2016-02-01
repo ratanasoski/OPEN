@@ -21,7 +21,7 @@ class DrawablePixmap(val pixmapMask: Pixmap) extends Disposable {
   /** binds and sets the maskTexture to TEXTURE1 as active */
   maskTexture.bind(1)
 
-  /** Resets the SpriteBatch to TEXTURE0,* otherwise it will automatically bind ti the current active texture */
+  /** Resets the SpriteBatch to TEXTURE0, otherwise it will automatically bind to the current active texture */
   Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0)
 
   /** Draws the initial pixmap onto the texture
@@ -41,10 +41,10 @@ class DrawablePixmap(val pixmapMask: Pixmap) extends Disposable {
   }
 
   /**
-    * @return true if if the pixmapMask is fully transparent
+    * @return true if the pixmapMask is fully transparent
     *         false otherwise
     **/
-  def isPixmapMaskTransparent: Boolean = {
+  def isTransparent: Boolean = {
     var maskAlphaSum = 0
     (0 until pixmapMask.getWidth).foreach(x => {
       (0 until pixmapMask.getHeight).foreach(y => {
@@ -54,8 +54,8 @@ class DrawablePixmap(val pixmapMask: Pixmap) extends Disposable {
       })
 
     })
-    if (maskAlphaSum == 0) true
-    else false
+    maskAlphaSum == 0
+
   }
 
   /** Draws a circle on the spot's x and y coordinates

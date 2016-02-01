@@ -75,10 +75,11 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
 
   /**
     * Method that handles mouse click on screen
+    *
     * @param screenX x coordinate of the mouse click
     * @param screenY y coordinate of the mouse click
     * @param pointer
-    * @param button information about the button clicked
+    * @param button  information about the button clicked
     * @return true if method is overridden
     */
   override def touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean = {
@@ -127,7 +128,7 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     * @return true if movingObject has reached the end point
     */
   def objectShouldStopAnimating(carX: Int, carY: Int): Boolean = {
-    if (carX >= objectStandPoints.reverse.head.x) true else false
+    carX >= objectStandPoints.reverse.head.x
   }
 
   /**

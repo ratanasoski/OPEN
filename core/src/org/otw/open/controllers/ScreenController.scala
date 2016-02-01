@@ -11,8 +11,6 @@ import org.otw.open.{GameScreen, OpenGame}
   */
 object ScreenController {
 
-  val openGame = OpenGame
-
   /**
     * Switches the current game screen based on the Event type received.
     * @param event - event received form engines.
@@ -20,11 +18,11 @@ object ScreenController {
     */
   def dispatchEvent(event: Event): Engine = {
     val engine = event match {
-      case EraserGameFinished => new CauseAndEffectEngine(25 until 580, 85 until 377, List(new Vector2(0, 500), new Vector2(800, 500)))
+      case EraserGameFinished => new CauseAndEffectEngine(101 until 337, 299 until 402, List(new Vector2(0, 320), new Vector2(850, 320)))
       case CauseAndEffectFinishedSuccessfully => new StaticAnimationEngine("happy-animation.atlas")
       case CauseAndEffectFinishedUnsuccessfully => new StaticAnimationEngine("happy-animation.atlas")
     }
-    openGame.changeScreen(new GameScreen(engine))
+    OpenGame.changeScreen(new GameScreen(engine))
     engine
   }
 
