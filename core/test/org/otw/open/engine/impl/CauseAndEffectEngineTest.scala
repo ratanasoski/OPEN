@@ -1,22 +1,24 @@
 package org.otw.open.engine.impl
 
 import com.badlogic.gdx.math.{Vector2, Vector3}
+import org.junit.Before
 import org.otw.open.controllers.{CauseAndEffectFinishedUnsuccessfully, ScreenController}
 import org.otw.open.dto.HorizontalMovingObject
 import org.otw.open.testconfig._
 import org.otw.open.{GameScreen, OpenGame}
+import org.scalatest.BeforeAndAfterEach
 
 /**
   * Created by smirakovska on 1/26/2016.
   */
-class CauseAndEffectEngineTest extends UnitSpec {
+class CauseAndEffectEngineTest extends UnitSpec with BeforeAndAfterEach{
 
   val xRange: Range = 25 until 580
   val yRange: Range = 85 until 377
   val standPoints: List[Vector2] = List(new Vector2(0, 0), new Vector2(500, 0))
   val movementDelta: Int = 20
 
-  val causeAndEffectEngine: CauseAndEffectEngine = new CauseAndEffectEngine(xRange, yRange, standPoints)
+  var causeAndEffectEngine: CauseAndEffectEngine = _
 
   val transformator = new Function[Vector3, Vector2] {
     override def apply(vector: Vector3): Vector2 = {
@@ -24,6 +26,15 @@ class CauseAndEffectEngineTest extends UnitSpec {
     }
   }
 
+
+  override def beforeEach(): Unit ={
+    causeAndEffectEngine = new CauseAndEffectEngine(xRange, yRange, standPoints)
+    causeAndEffectEngine.setMouseClickPositionTransformator(transformator)
+  }
+
+  override def afterEach(): Unit ={
+    causeAndEffectEngine.dispose()
+  }
   test("when objectShouldStopAnimating is invoked it should return false for object not at the end point") {
     val testObject = new HorizontalMovingObject(0, 0, movementDelta)
     assert(causeAndEffectEngine.objectShouldStopAnimating(testObject.x, testObject.y) == false)
@@ -95,6 +106,7 @@ class CauseAndEffectEngineTest extends UnitSpec {
       case sae: StaticAnimationEngine => sae
       case _ => throw new scala.ClassCastException
     }
+
     assert(staticAnimationEngine.atlasFileName.endsWith("happy-animation.atlas"))
   }
 }
