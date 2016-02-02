@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE Nodes [
+
+<!ENTITY % NameValue "CDATA">
+<!ENTITY % PropType "(I|S|D|L|H|B)">
+<!ENTITY % VersionValue "CDATA">
+
+<!ELEMENT Prp (#PCDATA)>
+<!ELEMENT Node (Node|Prp)*>
+<!ELEMENT Nodes (Node)+>
+
+<!ATTLIST Nodes version CDATA "1">
+
+<!ATTLIST Node name CDATA #REQUIRED>
+
+<!ATTLIST Prp name CDATA #REQUIRED>
+<!ATTLIST Prp type CDATA #REQUIRED>
+<!ATTLIST Prp value CDATA #REQUIRED>
+]>
+<Nodes version="1">
+	<Node name="root">
+		<Node name="child list">
+			<Node name="continuousmovement">
+				<Node name="item data">
+					<Prp name="relpath" type="S" value="ContinuousMovement.tcLLP"/>
+				</Node>
+				<Prp name="key" type="S" value="{97B7E5BC-F620-4DDC-B13D-24DDCE114D8B}"/>
+				<Prp name="pluginname" type="S" value="Low-Level Procedures Container"/>
+				<Prp name="type" type="S" value="{62402E6C-6E6D-4AA5-9AFF-5A20AD691C44}"/>
+				<Prp name="typename" type="S" value="Low-Level Procedure"/>
+			</Node>
+		</Node>
+		<Node name="folders"/>
+		<Node name="settings"/>
+		<Prp name="signature" type="S" value="{2D89293F-6B07-4679-9906-EFAE4B1A433C}"/>
+		<Prp name="version" type="S" value="11.0"/>
+	</Node>
+</Nodes>
