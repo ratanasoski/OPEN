@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE Nodes [
+
+<!ENTITY % NameValue "CDATA">
+<!ENTITY % PropType "(I|S|D|L|H|B)">
+<!ENTITY % VersionValue "CDATA">
+
+<!ELEMENT Prp (#PCDATA)>
+<!ELEMENT Node (Node|Prp)*>
+<!ELEMENT Nodes (Node)+>
+
+<!ATTLIST Nodes version CDATA "1">
+
+<!ATTLIST Node name CDATA #REQUIRED>
+
+<!ATTLIST Prp name CDATA #REQUIRED>
+<!ATTLIST Prp type CDATA #REQUIRED>
+<!ATTLIST Prp value CDATA #REQUIRED>
+]>
+<Nodes version="1">
+	<Node name="root">
+		<Node name="child list">
+			<Node name="animationcar">
+				<Node name="item data">
+					<Node name="settings"/>
+					<Prp name="caption" type="S" value="AnimationCar"/>
+					<Prp name="filename" type="S" value="Regions\AnimationCar.png"/>
+					<Prp name="id" type="S" value="{53DE195A-13F1-4EA0-9D3C-E94275C17CBA}"/>
+					<Prp name="signature" type="S" value="{1FD256C1-604C-48A1-9990-9A9329139EC4}"/>
+					<Prp name="update" type="B" value="0"/>
+					<Prp name="version" type="S" value="11.0"/>
+				</Node>
+				<Prp name="index" type="I" value="2"/>
+				<Prp name="key" type="S" value="{53DE195A-13F1-4EA0-9D3C-E94275C17CBA}"/>
+				<Prp name="pluginname" type="S" value="Stores"/>
+				<Prp name="type" type="S" value="{1FD256C1-604C-48A1-9990-9A9329139EC4}"/>
+				<Prp name="typename" type="S" value="Region"/>
+			</Node>
+			<Node name="happyanimation">
+				<Node name="item data">
+					<Node name="settings"/>
+					<Prp name="caption" type="S" value="happyAnimation"/>
+					<Prp name="filename" type="S" value="Regions\happyAnimation.png"/>
+					<Prp name="id" type="S" value="{5E26A90E-4733-455C-98EE-5918B230D2E8}"/>
+					<Prp name="signature" type="S" value="{1FD256C1-604C-48A1-9990-9A9329139EC4}"/>
+					<Prp name="update" type="B" value="-1"/>
+					<Prp name="version" type="S" value="11.0"/>
+				</Node>
+				<Prp name="index" type="I" value="0"/>
+				<Prp name="key" type="S" value="{5E26A90E-4733-455C-98EE-5918B230D2E8}"/>
+				<Prp name="pluginname" type="S" value="Stores"/>
+				<Prp name="type" type="S" value="{1FD256C1-604C-48A1-9990-9A9329139EC4}"/>
+				<Prp name="typename" type="S" value="Region"/>
+			</Node>
+			<Node name="regionleaves">
+				<Node name="item data">
+					<Node name="settings"/>
+					<Prp name="caption" type="S" value="RegionLeaves"/>
+					<Prp name="filename" type="S" value="Regions\RegionLeaves.png"/>
+					<Prp name="id" type="S" value="{3A235DF8-796D-412C-A66B-D8ECDF3F44E0}"/>
+					<Prp name="signature" type="S" value="{1FD256C1-604C-48A1-9990-9A9329139EC4}"/>
+					<Prp name="update" type="B" value="0"/>
+					<Prp name="version" type="S" value="11.0"/>
+				</Node>
+				<Prp name="index" type="I" value="1"/>
+				<Prp name="key" type="S" value="{3A235DF8-796D-412C-A66B-D8ECDF3F44E0}"/>
+				<Prp name="pluginname" type="S" value="Stores"/>
+				<Prp name="type" type="S" value="{1FD256C1-604C-48A1-9990-9A9329139EC4}"/>
+				<Prp name="typename" type="S" value="Region"/>
+			</Node>
+			<Node name="sadanimation">
+				<Node name="item data">
+					<Node name="settings"/>
+					<Prp name="caption" type="S" value="SadAnimation"/>
+					<Prp name="filename" type="S" value="Regions\SadAnimation.png"/>
+					<Prp name="id" type="S" value="{8AFE970C-A122-4A5A-8868-3BBDAD6986B2}"/>
+					<Prp name="signature" type="S" value="{1FD256C1-604C-48A1-9990-9A9329139EC4}"/>
+					<Prp name="update" type="B" value="0"/>
+					<Prp name="version" type="S" value="11.0"/>
+				</Node>
+				<Prp name="index" type="I" value="3"/>
+				<Prp name="key" type="S" value="{8AFE970C-A122-4A5A-8868-3BBDAD6986B2}"/>
+				<Prp name="pluginname" type="S" value="Stores"/>
+				<Prp name="type" type="S" value="{1FD256C1-604C-48A1-9990-9A9329139EC4}"/>
+				<Prp name="typename" type="S" value="Region"/>
+			</Node>
+		</Node>
+		<Node name="folders"/>
+		<Node name="settings"/>
+		<Prp name="signature" type="S" value="{DA6D7EF7-5B05-4735-AAF0-A85E47D47989}"/>
+		<Prp name="version" type="S" value="11.0"/>
+	</Node>
+</Nodes>

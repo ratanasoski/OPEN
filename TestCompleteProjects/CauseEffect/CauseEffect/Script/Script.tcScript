@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE Nodes [
+
+<!ENTITY % NameValue "CDATA">
+<!ENTITY % PropType "(I|S|D|L|H|B)">
+<!ENTITY % VersionValue "CDATA">
+
+<!ELEMENT Prp (#PCDATA)>
+<!ELEMENT Node (Node|Prp)*>
+<!ELEMENT Nodes (Node)+>
+
+<!ATTLIST Nodes version CDATA "1">
+
+<!ATTLIST Node name CDATA #REQUIRED>
+
+<!ATTLIST Prp name CDATA #REQUIRED>
+<!ATTLIST Prp type CDATA #REQUIRED>
+<!ATTLIST Prp value CDATA #REQUIRED>
+]>
+<Nodes version="1">
+	<Node name="root">
+		<Node name="child list">
+			<Node name="causeeffect_01_continuosmovement">
+				<Node name="item data">
+					<Prp name="relpath" type="S" value="CauseEffect_01_ContinuosMovement.sj"/>
+				</Node>
+				<Prp name="key" type="S" value="{2D1F8477-3B7F-44BF-BF9F-BFDC8D790A37}"/>
+				<Prp name="pluginname" type="S" value="Script"/>
+				<Prp name="type" type="S" value="{291CAE9C-4D20-4F33-8B5F-D48B587F3D65}"/>
+				<Prp name="typename" type="S" value="Script Unit"/>
+			</Node>
+			<Node name="causeeffect_02_oneclick">
+				<Node name="item data">
+					<Prp name="relpath" type="S" value="CauseEffect_02_OneClick.sj"/>
+				</Node>
+				<Prp name="key" type="S" value="{65583A63-DE32-4014-9FD6-49B46909170E}"/>
+				<Prp name="pluginname" type="S" value="Script"/>
+				<Prp name="type" type="S" value="{291CAE9C-4D20-4F33-8B5F-D48B587F3D65}"/>
+				<Prp name="typename" type="S" value="Script Unit"/>
+			</Node>
+			<Node name="causeeffect_03_cm_notcompleted">
+				<Node name="item data">
+					<Prp name="relpath" type="S" value="CauseEffect_03_CM_NotCompleted.sj"/>
+				</Node>
+				<Prp name="key" type="S" value="{8BE708AE-DC21-4613-B6D0-E8F22C12F177}"/>
+				<Prp name="pluginname" type="S" value="Script"/>
+				<Prp name="type" type="S" value="{291CAE9C-4D20-4F33-8B5F-D48B587F3D65}"/>
+				<Prp name="typename" type="S" value="Script Unit"/>
+			</Node>
+			<Node name="causeeffect_04_threeclicksoutofbounds">
+				<Node name="item data">
+					<Prp name="relpath" type="S" value="CauseEffect_04_ThreeClicksOutofBounds.sj"/>
+				</Node>
+				<Prp name="key" type="S" value="{804B8CFE-B2B9-4455-AAC3-F8D3FA878EFC}"/>
+				<Prp name="pluginname" type="S" value="Script"/>
+				<Prp name="type" type="S" value="{291CAE9C-4D20-4F33-8B5F-D48B587F3D65}"/>
+				<Prp name="typename" type="S" value="Script Unit"/>
+			</Node>
+		</Node>
+		<Node name="folders"/>
+		<Node name="settings"/>
+		<Prp name="signature" type="S" value="{9252F941-DB23-4FCA-AA50-858B33BB4A19}"/>
+		<Prp name="version" type="S" value="11.0"/>
+	</Node>
+</Nodes>
