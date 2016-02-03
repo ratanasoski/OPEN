@@ -9,7 +9,7 @@ public class DesktopLauncher {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 1440;
         config.height = 900;
-        config.resizable = true;
+        config.resizable = false;
         config.title = "OPEN - a children's game";
         new LwjglApplication(OpenGame.getGame(), config);
 
