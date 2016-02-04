@@ -3,7 +3,7 @@ package org.otw.open.engine.impl
 import com.badlogic.gdx.math.{Vector2, Vector3}
 import org.junit.Before
 import org.otw.open.controllers.{CauseAndEffectFinishedUnsuccessfully, ScreenController}
-import org.otw.open.dto.HorizontalMovingObject
+import org.otw.open.dto.{StandPoint, HorizontalMovingObject}
 import org.otw.open.testconfig._
 import org.otw.open.{GameScreen, OpenGame}
 import org.scalatest.BeforeAndAfterEach
@@ -26,9 +26,14 @@ class CauseAndEffectEngineTest extends UnitSpec with BeforeAndAfterEach {
     }
   }
 
+  val standpoints: List[StandPoint] = List(
+    new StandPoint(101 until 337, 299 until 402, new Vector2(0, 320)),
+    new StandPoint(330 until 665, 299 until 402, new Vector2(330, 320)),
+    new StandPoint(330 until 665, 299 until 402, new Vector2(990, 320))
+  )
 
   override def beforeEach(): Unit = {
-    causeAndEffectEngine = new CauseAndEffectEngine(xRange, yRange, standPoints)
+    causeAndEffectEngine = new CauseAndEffectEngine(standpoints)
     causeAndEffectEngine.setMouseClickPositionTransformator(transformator)
   }
 
@@ -47,21 +52,21 @@ class CauseAndEffectEngineTest extends UnitSpec with BeforeAndAfterEach {
   }
 
   test("when CauseAndEffectEngine object's apply method is invoked new CauseAndEffectEngine instance should be returned") {
-    val returnedObject = CauseAndEffectEngine.apply(xRange, yRange, standPoints)
+    val returnedObject = CauseAndEffectEngine.apply(standpoints)
     assert(returnedObject.isInstanceOf[CauseAndEffectEngine])
   }
 
   test("when objectIsClicked is invoked should return false if object is not clicked") {
-    assert(causeAndEffectEngine.objectIsClicked(50, 60) == false)
+    assert(causeAndEffectEngine.objectIsClicked(50, 60, standpoints.head) == false)
   }
 
 
   test("when objectIsClicked is invoked should return true if object is clicked") {
-    assert(causeAndEffectEngine.objectIsClicked(90, 90) == true)
+    assert(causeAndEffectEngine.objectIsClicked(300, 300, standpoints.head) == true)
   }
 
   test("when mouse is clicked, should return true if object was clicked") {
-    assert(causeAndEffectEngine.touchDown(95, 120, 1, 1) == true)
+    assert(causeAndEffectEngine.touchDown(300, 300, 1, 1) == true)
   }
 
   test("when mouse is clicked, should return false if object was not clicked") {
@@ -69,7 +74,7 @@ class CauseAndEffectEngineTest extends UnitSpec with BeforeAndAfterEach {
   }
 
   test("when object is clicked and is animating, getDrawings should return a list with new moving object that has updated x coordinate") {
-    causeAndEffectEngine.touchDown(90, 90, 1, 1) // mouseWasClicked will be set to true
+    causeAndEffectEngine.touchDown(300, 300, 1, 1) // mouseWasClicked will be set to true
     val drawings = causeAndEffectEngine.getDrawings(movementDelta)
     assert(drawings.reverse.head.x != standPoints.head.x.toInt)
   }
@@ -85,6 +90,17 @@ class CauseAndEffectEngineTest extends UnitSpec with BeforeAndAfterEach {
     causeAndEffectEngine.touchDown(600, 600, 1, 1)
     causeAndEffectEngine.touchDown(600, 600, 1, 1)
     assert(ScreenController.dispatchEvent(CauseAndEffectFinishedUnsuccessfully).isInstanceOf[StaticAnimationEngine])
+
+    val gameScreen = OpenGame.getGame.getScreen match {
+      case s: GameScreen => s
+      case _ => throw new scala.ClassCastException
+    }
+    val staticAnimationEngine = gameScreen.engine match {
+      case sae: StaticAnimationEngine => sae
+      case _ => throw new scala.ClassCastException
+    }
+
+    assert(staticAnimationEngine.atlasFileName.endsWith("unhappy-animation.atlas"))
   }
 
   test("when object is clicked and animation is finished, screen with happy animation is shown") {
