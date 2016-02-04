@@ -24,6 +24,15 @@ class DrawablePixmap(val pixmapMask: Pixmap) extends Disposable {
   /** Resets the SpriteBatch to TEXTURE0, otherwise it will automatically bind to the current active texture */
   Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0)
 
+  /** pixel size of the pixmap */
+  val pixmapSize = pixmapMask.getWidth * pixmapMask.getHeight
+
+  /** opacity percentage on pixmap */
+  val opacityPercentage = 0.5 / 100
+
+  /** amount of opaque pixels on the pixmap */
+  val allowedOpacity = pixmapSize * opacityPercentage
+
   /** Draws the initial pixmap onto the texture
     *
     * @return maskTexture */
@@ -46,18 +55,14 @@ class DrawablePixmap(val pixmapMask: Pixmap) extends Disposable {
     **/
   def isTransparent: Boolean = {
     var maskAlphaSum = 0
-    val pixmapSize = pixmapMask.getWidth * pixmapMask.getHeight
-    val percentageRequired = pixmapSize * 0.5 / 100
     (0 until pixmapMask.getWidth).foreach(x => {
       (0 until pixmapMask.getHeight).foreach(y => {
         val color: Color = new Color
         Color.rgba8888ToColor(color, pixmapMask.getPixel(x, y))
         maskAlphaSum += color.a.toInt
       })
-
     })
-    maskAlphaSum <= percentageRequired
-
+    maskAlphaSum <= allowedOpacity
   }
 
   /** Draws a circle on the spot's x and y coordinates
