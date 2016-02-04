@@ -107,7 +107,12 @@ project(":core") {
         testCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 
         scoverage 'org.scoverage:scalac-scoverage-plugin_2.11:1.1.0', 'org.scoverage:scalac-scoverage-runtime_2.11:1.1.0'
-
+        checkScoverage {
+            coverageType = 'Line'
+            minimumRate = 0.8
+            coverageType = 'Branch'
+            minimumRate = 0.7
+        }
     }
 }
 
