@@ -46,6 +46,8 @@ class DrawablePixmap(val pixmapMask: Pixmap) extends Disposable {
     **/
   def isTransparent: Boolean = {
     var maskAlphaSum = 0
+    val pixmapSize = pixmapMask.getWidth * pixmapMask.getHeight
+    val percentageRequired = pixmapSize * 0.5 / 100
     (0 until pixmapMask.getWidth).foreach(x => {
       (0 until pixmapMask.getHeight).foreach(y => {
         val color: Color = new Color
@@ -54,7 +56,7 @@ class DrawablePixmap(val pixmapMask: Pixmap) extends Disposable {
       })
 
     })
-    maskAlphaSum == 0
+    maskAlphaSum <= percentageRequired
 
   }
 
