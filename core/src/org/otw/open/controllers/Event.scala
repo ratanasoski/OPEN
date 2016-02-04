@@ -20,3 +20,8 @@ case object CauseAndEffectFinishedSuccessfully extends Event
   * Cause and effect game finished unsuccessfully.
   */
 case object CauseAndEffectFinishedUnsuccessfully extends Event
+
+/**
+  * Cause and effect game finished unsuccessfully.
+  */
+case object CauseAndEffectSecondLevel extends Event

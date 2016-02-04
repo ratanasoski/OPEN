@@ -5,18 +5,19 @@ package org.otw.open.engine.impl
   */
 
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.badlogic.gdx.math.{Vector3, Vector2}
+import com.badlogic.gdx.math.{Vector2, Vector3}
 import com.badlogic.gdx.{Gdx, InputAdapter}
-import org.otw.open.dto.{HorizontalMovingObject, Drawing}
+import org.otw.open.controllers.{CauseAndEffectFinishedSuccessfully, CauseAndEffectFinishedUnsuccessfully, ScreenController}
+import org.otw.open.dto.{Drawing, HorizontalMovingObject, StandPoint}
 import org.otw.open.engine.Engine
-import org.otw.open.controllers.{CauseAndEffectFinishedUnsuccessfully, CauseAndEffectFinishedSuccessfully, ScreenController, Event}
 import org.otw.open.engine.util.Animator
 
 /**
   * CauseAndEffectEngine - handles horizontal object movement
+  *
+  * @param objectStandPoints - list of StandPoint objects
   */
-class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoints: List[Vector2]) extends InputAdapter with Engine {
+class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAdapter with Engine {
 
   /**
     * set current input processor
@@ -27,46 +28,66 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     * Max number of failed attempts allowed
     */
   private val maxFailedAttempts = 3
+
   /**
     * The background texture where the object moves on.
     */
   private val backgroundTexture = new Texture(Gdx.files.internal("street-background.png"))
+
   /**
     * Time interval on which the movingObject moves.
     */
   private val MOVE_TIME_IN_SECONDS: Float = 0.1F
+
   /**
     * Movement of the object
     */
   private val DELTA_MOVEMENT: Int = 30
-  /**
-    * The starting point of the object to be animated
-    */
-  private val objectStartingPoint = objectStandPoints.head
+
   /**
     * Animator object
     */
   private val animator: Animator = new Animator("vibrating-car.atlas")
+
   /**
     * Transforms the click coordinates based on the screen size. Uses the camera transformation.
     */
   var transformator: Option[((Vector3) => Vector2)] = None
+
   /**
     * Boolean flag that is set to true when object is clicked
     */
   private var objectClicked: Boolean = false
+
   /**
     * Counter for the number of failed attempts
     */
   private var numOfFailedAttempts = 0
+
   /**
     * Current time.
     */
   private var timer = MOVE_TIME_IN_SECONDS
+
+  /**
+    * index of the next stand point
+    */
+  private var nextPointIndex: Int = 1
+
+  /**
+    * end point of the animation
+    */
+  private val endVector = objectStandPoints.reverse.head.coordinates
+
+  /**
+    * next standpoint for the moving object
+    */
+  private var nextPoint: StandPoint = objectStandPoints(nextPointIndex)
+
   /**
     * Moving object.
     */
-  private var movingObject: HorizontalMovingObject = new HorizontalMovingObject(objectStartingPoint.x.toInt, objectStartingPoint.y.toInt, DELTA_MOVEMENT)
+  private var movingObject: HorizontalMovingObject = new HorizontalMovingObject(objectStandPoints(0).coordinates.x.toInt, objectStandPoints(0).coordinates.y.toInt, DELTA_MOVEMENT)
 
   /**
     * Timer for the vibrating object
@@ -83,10 +104,10 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     * @return true if method is overridden
     */
   override def touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean = {
-    if (objectIsClicked(screenX, screenY)) true
+    if (objectIsClicked(screenX, screenY, objectStandPoints(nextPointIndex - 1))) true
     else {
       numOfFailedAttempts += 1
-      if (numOfFailedAttempts == 3 && !objectClicked) ScreenController.dispatchEvent(CauseAndEffectFinishedUnsuccessfully)
+      if (numOfFailedAttempts == maxFailedAttempts && !objectClicked) ScreenController.dispatchEvent(CauseAndEffectFinishedUnsuccessfully)
       false
     }
   }
@@ -96,22 +117,27 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     * @param y y coordinate of mouse click
     * @return true if movingObject object is clicked
     */
-  def objectIsClicked(x: Int, y: Int): Boolean = {
+  def objectIsClicked(x: Int, y: Int, point: StandPoint): Boolean = {
     val transformedPosition: Vector2 = transformator.get(new Vector3(x, y, 0))
-    if (xRange.contains(transformedPosition.x.toInt)
-      && yRange.contains(transformedPosition.y.toInt)) {
+    if (point.xRange.contains(transformedPosition.x.toInt)
+      && point.yRange.contains(transformedPosition.y.toInt)) {
       objectClicked = true
       true
     }
     else false
   }
 
+  /**
+    *
+    * @param delta
+    * @return list of drawings
+    */
   override def getDrawings(delta: Float): List[Drawing] = {
     animationTime += delta
     if (objectClicked) {
-      if (objectShouldStopAnimating(movingObject.x, movingObject.y))
+      if (endReached(movingObject.x, movingObject.y))
         ScreenController.dispatchEvent(CauseAndEffectFinishedSuccessfully)
-      else {
+      else if (!objectShouldStopAnimating(movingObject.x, movingObject.y)) {
         timer = timer - delta
         if (timer < 0) {
           timer = MOVE_TIME_IN_SECONDS
@@ -128,7 +154,23 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
     * @return true if movingObject has reached the end point
     */
   def objectShouldStopAnimating(carX: Int, carY: Int): Boolean = {
-    carX >= objectStandPoints.reverse.head.x
+    if (carX >= nextPoint.coordinates.x) {
+      nextPointIndex += 1
+      nextPoint = objectStandPoints(nextPointIndex)
+      objectClicked = false
+      true
+    }
+    else false
+  }
+
+  /**
+    *
+    * @param carX x coordinate of the moving object
+    * @param carY y coordinate of the moving object
+    * @return true if object has reached final endpoint
+    */
+  def endReached(carX: Int, carY: Int): Boolean = {
+    carX >= endVector.x
   }
 
   /**
@@ -148,12 +190,5 @@ class CauseAndEffectEngine(val xRange: Range, val yRange: Range, objectStandPoin
 }
 
 object CauseAndEffectEngine {
-
-  /**
-    * @param xRange
-    * @param yRange
-    * @param objectStandPoints Vector2 points where object should stop its movement
-    * @return new CauseAndEffectEngine
-    */
-  def apply(xRange: Range, yRange: Range, objectStandPoints: List[Vector2]): CauseAndEffectEngine = new CauseAndEffectEngine(xRange, yRange, objectStandPoints)
+  def apply(objectStandPoints: List[StandPoint]): CauseAndEffectEngine = new CauseAndEffectEngine(objectStandPoints)
 }
