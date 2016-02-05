@@ -44,6 +44,14 @@ class ScreenControllerTest extends UnitSpec {
     assert(returnedScreenEngine == currentGameScreen.engine)
   }
 
+<<<<<<< Updated upstream
+
+  test("given CauseAndEffectSecondLevel event is dispatched, the current game screen engine is CauseAndEffectEngine") {
+    val returnedScreenEngine: Engine = ScreenController.dispatchEvent(CauseAndEffectSecondLevel)
+    val currentGameScreen: GameScreen = getCurrentGameScreen
+    assert(returnedScreenEngine == currentGameScreen.engine)
+  }
+=======
   test("given RetryLevel event is dispatched, the current game screen engine is CauseAndEffectEngine") {
     val returnedScreenEngine: Engine = ScreenController.dispatchEvent(RetryLevel)
     val currentGameScreen: GameScreen = getCurrentGameScreen
@@ -83,12 +91,7 @@ class ScreenControllerTest extends UnitSpec {
     assert(returnedThemeKey != ScreenController.themeKey)
   }
 
-
-  test("given CauseAndEffectSecondLevel event is dispatched, the current game screen engine is CauseAndEffectEngine") {
-    val returnedScreenEngine: Engine = ScreenController.dispatchEvent(NextLevel)
-    val currentGameScreen: GameScreen = getCurrentGameScreen
-    assert(returnedScreenEngine == currentGameScreen.engine)
-  }
+>>>>>>> Stashed changes
   /**
     *
     * @return gets the current screen of our singleton game instance.

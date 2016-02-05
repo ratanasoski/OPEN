@@ -1,7 +1,6 @@
 package org.otw.open
 
-import com.badlogic.gdx.{Screen, Game}
-import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.{Game, Screen}
 import org.otw.open.engine.impl.EraserGameEngine
 
 /**
@@ -16,7 +15,7 @@ class OpenGame private() extends Game {
   * A singleton object containing an instance of our game.
   */
 object OpenGame {
-  private lazy val game = new OpenGame()
+  private lazy val game = new OpenGame
 
   /**
     *
