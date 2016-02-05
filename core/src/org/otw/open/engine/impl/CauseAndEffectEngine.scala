@@ -11,7 +11,7 @@ import com.badlogic.gdx.{Input, Gdx, InputAdapter}
 import org.otw.open.controllers.{CauseAndEffectFinishedSuccessfully, CauseAndEffectFinishedUnsuccessfully, ScreenController}
 import org.otw.open.dto.{Drawing, HorizontalMovingObject, StandPoint}
 import org.otw.open.engine.Engine
-import org.otw.open.engine.util.Animator
+import org.otw.open.engine.util.{SoundEffects, Animator}
 
 /**
   * CauseAndEffectEngine - handles horizontal object movement
@@ -51,35 +51,33 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
   private val animator: Animator = new Animator("vibrating-car.atlas")
 
   /**
-    * Transforms the click coordinates based on the screen size. Uses the camera transformation.
+    * Sound instance for cause and effect game
     */
-  var transformator: Option[((Vector3) => Vector2)] = None
-
-  /**
-    * Boolean flag that is set to true when object is clicked
-    */
-  private var objectClicked: Boolean = false
-
-  /**
-    * Counter for the number of failed attempts
-    */
-  private var numOfFailedAttempts = 0
-
-  /**
-    * Current time.
-    */
-  private var timer = MOVE_TIME_IN_SECONDS
-
-  /**
-    * index of the next stand point
-    */
-  private var nextPointIndex: Int = 1
-
+  private val sound: SoundEffects = new SoundEffects("guidanceForCauseAndEffect.wav")
   /**
     * end point of the animation
     */
   private val endVector = objectStandPoints.reverse.head.coordinates
-
+  /**
+    * Transforms the click coordinates based on the screen size. Uses the camera transformation.
+    */
+  var transformator: Option[((Vector3) => Vector2)] = None
+  /**
+    * Boolean flag that is set to true when object is clicked
+    */
+  private var objectClicked: Boolean = false
+  /**
+    * Counter for the number of failed attempts
+    */
+  private var numOfFailedAttempts = 0
+  /**
+    * Current time.
+    */
+  private var timer = MOVE_TIME_IN_SECONDS
+  /**
+    * index of the next stand point
+    */
+  private var nextPointIndex: Int = 1
   /**
     * next standpoint for the moving object
     */
@@ -195,6 +193,7 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
   override def dispose(): Unit = {
     backgroundTexture.dispose()
     animator.dispose()
+    sound.dispose()
   }
 }
 
