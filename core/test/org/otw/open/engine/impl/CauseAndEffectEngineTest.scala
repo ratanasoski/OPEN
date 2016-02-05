@@ -1,9 +1,9 @@
 package org.otw.open.engine.impl
 
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.{Vector2, Vector3}
-import org.junit.Before
 import org.otw.open.controllers.{CauseAndEffectFinishedUnsuccessfully, ScreenController}
-import org.otw.open.dto.{StandPoint, HorizontalMovingObject}
+import org.otw.open.dto.{HorizontalMovingObject, StandPoint}
 import org.otw.open.testconfig._
 import org.otw.open.{GameScreen, OpenGame}
 import org.scalatest.BeforeAndAfterEach
@@ -43,12 +43,12 @@ class CauseAndEffectEngineTest extends UnitSpec with BeforeAndAfterEach {
 
   test("when objectShouldStopAnimating is invoked it should return false for object not at the end point") {
     val testObject = new HorizontalMovingObject(0, 0, movementDelta)
-    assert(causeAndEffectEngine.objectShouldStopAnimating(testObject.x, testObject.y) == false)
+    assert(causeAndEffectEngine.objectShouldStopAnimating(testObject.x, testObject.y, standpoints(1)) == false)
   }
 
   test("when objectShouldStopAnimating is invoked it should return true for object at the end point") {
-    val testObject = new HorizontalMovingObject(800, 500, movementDelta)
-    assert(causeAndEffectEngine.objectShouldStopAnimating(testObject.x, testObject.y))
+    val testObject = new HorizontalMovingObject(1000, 1000, movementDelta)
+    assert(causeAndEffectEngine.objectShouldStopAnimating(testObject.x, testObject.y, standpoints(2)))
   }
 
   test("when CauseAndEffectEngine object's apply method is invoked new CauseAndEffectEngine instance should be returned") {
@@ -66,18 +66,18 @@ class CauseAndEffectEngineTest extends UnitSpec with BeforeAndAfterEach {
   }
 
   test("when mouse is clicked, should return true if object was clicked") {
-    assert(causeAndEffectEngine.touchDown(300, 300, 1, 1) == true)
+    assert(causeAndEffectEngine.touchDown(110, 300, 1, Input.Buttons.LEFT) == true)
   }
 
   test("when mouse is clicked, should return false if object was not clicked") {
-    assert(causeAndEffectEngine.touchDown(0, 900, 1, 1) == false)
+    assert(causeAndEffectEngine.touchDown(900, 900, 1, Input.Buttons.LEFT) == false)
   }
 
-  test("when object is clicked and is animating, getDrawings should return a list with new moving object that has updated x coordinate") {
-    causeAndEffectEngine.touchDown(300, 300, 1, 1) // mouseWasClicked will be set to true
-    val drawings = causeAndEffectEngine.getDrawings(movementDelta)
-    assert(drawings.reverse.head.x != standPoints.head.x.toInt)
-  }
+    test("when object is clicked and is animating, getDrawings should return a list with new moving object that has updated x coordinate") {
+      causeAndEffectEngine.touchDown(110, 300, 1, Input.Buttons.LEFT) // mouseWasClicked will be set to true
+      val drawings = causeAndEffectEngine.getDrawings(movementDelta)
+      assert(drawings.reverse.head.x != standPoints.head.x.toInt)
+    }
 
   test("when getDrawings is invoked, it should return a list of two drawings") {
     causeAndEffectEngine.touchDown(90, 90, 1, 1) // mouseWasClicked will be set to true
@@ -122,5 +122,9 @@ class CauseAndEffectEngineTest extends UnitSpec with BeforeAndAfterEach {
     }
 
     assert(staticAnimationEngine.atlasFileName.endsWith("happy-animation.atlas"))
+  }
+
+  test("should return true when object has reached final endpoint") {
+    causeAndEffectEngine.endReached(800, 0)
   }
 }
