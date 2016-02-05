@@ -6,7 +6,8 @@ package org.otw.open.engine.impl
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.{Vector2, Vector3}
-import com.badlogic.gdx.{Gdx, InputAdapter}
+import com.badlogic.gdx.scenes.scene2d.ui.Button
+import com.badlogic.gdx.{Input, Gdx, InputAdapter}
 import org.otw.open.controllers.{CauseAndEffectFinishedSuccessfully, CauseAndEffectFinishedUnsuccessfully, ScreenController}
 import org.otw.open.dto.{Drawing, HorizontalMovingObject, StandPoint}
 import org.otw.open.engine.Engine
@@ -104,12 +105,19 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
     * @return true if method is overridden
     */
   override def touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean = {
-    if (objectIsClicked(screenX, screenY, objectStandPoints(nextPointIndex - 1))) true
-    else {
-      numOfFailedAttempts += 1
-      if (numOfFailedAttempts == maxFailedAttempts && !objectClicked) ScreenController.dispatchEvent(CauseAndEffectFinishedUnsuccessfully)
-      false
+    if (button == Input.Buttons.LEFT) {
+      if (objectIsClicked(screenX, screenY, objectStandPoints(nextPointIndex - 1))
+        && !objectShouldStopAnimating(movingObject.x, movingObject.y, objectStandPoints(nextPointIndex))
+      ) true
+      else {
+        if (!objectClicked)
+          numOfFailedAttempts += 1
+        if (numOfFailedAttempts == maxFailedAttempts)
+          ScreenController.dispatchEvent(CauseAndEffectFinishedUnsuccessfully)
+        false
+      }
     }
+    else false
   }
 
   /**
@@ -128,20 +136,22 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
   }
 
   /**
-    *
     * @param delta
     * @return list of drawings
     */
   override def getDrawings(delta: Float): List[Drawing] = {
     animationTime += delta
     if (objectClicked) {
-      if (endReached(movingObject.x, movingObject.y))
+      if (endReached(movingObject.x, movingObject.y)) {
         ScreenController.dispatchEvent(CauseAndEffectFinishedSuccessfully)
-      else if (!objectShouldStopAnimating(movingObject.x, movingObject.y)) {
-        timer = timer - delta
-        if (timer < 0) {
-          timer = MOVE_TIME_IN_SECONDS
-          movingObject = movingObject.moveObject
+      }
+      else {
+        if (!objectShouldStopAnimating(movingObject.x, movingObject.y, objectStandPoints(nextPointIndex))) {
+          timer = timer - delta
+          if (timer < 0) {
+            timer = MOVE_TIME_IN_SECONDS
+            movingObject = movingObject.moveObject
+          }
         }
       }
     }
@@ -149,12 +159,13 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
   }
 
   /**
-    * @param carX x coordinate of the movingObject
-    * @param carY y coordinate of the movingObject
+    * @param objectX x coordinate of the movingObject
+    * @param objectY y coordinate of the movingObject
     * @return true if movingObject has reached the end point
     */
-  def objectShouldStopAnimating(carX: Int, carY: Int): Boolean = {
-    if (carX >= nextPoint.coordinates.x) {
+  def objectShouldStopAnimating(objectX: Int, objectY: Int, point: StandPoint): Boolean = {
+    val transformedCoordinates: Vector2 = transformator.get(new Vector3(objectX, objectY, 0))
+    if (transformedCoordinates.x >= point.coordinates.x) {
       nextPointIndex += 1
       nextPoint = objectStandPoints(nextPointIndex)
       objectClicked = false
@@ -164,13 +175,12 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
   }
 
   /**
-    *
-    * @param carX x coordinate of the moving object
-    * @param carY y coordinate of the moving object
+    * @param objectX x coordinate of the moving object
+    * @param objectY y coordinate of the moving object
     * @return true if object has reached final endpoint
     */
-  def endReached(carX: Int, carY: Int): Boolean = {
-    carX >= endVector.x
+  def endReached(objectX: Int, objectY: Int): Boolean = {
+    objectX >= endVector.x
   }
 
   /**
@@ -186,7 +196,6 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
     backgroundTexture.dispose()
     animator.dispose()
   }
-
 }
 
 object CauseAndEffectEngine {
