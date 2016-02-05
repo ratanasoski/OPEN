@@ -7,6 +7,7 @@ import com.badlogic.gdx.{InputAdapter, Gdx, InputProcessor}
 import org.otw.open.dto.{DrawablePixmap, Drawing}
 import org.otw.open.engine.Engine
 import org.otw.open.controllers.{EraserGameFinished, ScreenController, Event}
+import org.otw.open.engine.util.SoundEffects
 import org.otw.open.{GameScreen, OpenGame}
 
 /**
@@ -18,6 +19,10 @@ class EraserGameEngine extends InputAdapter with Engine {
   private val pixmapMask: DrawablePixmap = new DrawablePixmap(new Pixmap(Gdx.files.internal("leaves.png")))
   private val backgroundTexture: Texture = new Texture(Gdx.files.internal("street.png"))
   private val maskTexture: Texture = pixmapMask.initializePixmapDrawingOntoTexture
+  /**
+    * Sound instance for cause and effect game
+    */
+  private val sound: SoundEffects = new SoundEffects("guidanceForEraser.wav")
   private var lastPointerPosition: Option[Vector2] = None
   private var mouseMoved = false
 
@@ -57,14 +62,15 @@ class EraserGameEngine extends InputAdapter with Engine {
   }
 
   /**
-    * Disposes of the textures.
-    * The textures are not collected by the garbage collector.
+    * Disposes of the textures and sounds.
+    * The resources are not collected by the garbage collector.
     *
     **/
   override def dispose() = {
     pixmapMask.dispose
     backgroundTexture.dispose
     maskTexture.dispose
+    sound.dispose
   }
 
 }
