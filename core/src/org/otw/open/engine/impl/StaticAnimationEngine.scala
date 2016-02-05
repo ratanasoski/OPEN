@@ -30,7 +30,7 @@ class StaticAnimationEngine(val atlasFileName: String) extends InputAdapter with
   /**
     * should be removed at end of sprint
     */
-  override def touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean = {
+  override def keyTyped(character: Char): Boolean = {
     ScreenController.dispatchEvent(CauseAndEffectSecondLevel)
     true
   }
