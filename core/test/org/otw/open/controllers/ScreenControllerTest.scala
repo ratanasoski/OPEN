@@ -44,6 +44,12 @@ class ScreenControllerTest extends UnitSpec {
     assert(returnedScreenEngine == currentGameScreen.engine)
   }
 
+
+  test("given CauseAndEffectSecondLevel event is dispatched, the current game screen engine is CauseAndEffectEngine") {
+    val returnedScreenEngine: Engine = ScreenController.dispatchEvent(CauseAndEffectSecondLevel)
+    val currentGameScreen: GameScreen = getCurrentGameScreen
+    assert(returnedScreenEngine == currentGameScreen.engine)
+  }
   /**
     *
     * @return gets the current screen of our singleton game instance.

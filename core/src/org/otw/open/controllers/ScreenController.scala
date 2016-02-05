@@ -22,7 +22,7 @@ object ScreenController {
     val engine = event match {
       case EraserGameFinished => new CauseAndEffectEngine(
         List(
-          new StandPoint(101 until 337, 299 until 402, new Vector2(0, 320)),
+          new StandPoint(0 until 344, 299 until 402, new Vector2(0, 320)),
           new StandPoint(101 until 337, 299 until 402, new Vector2(990, 320))
         )
       )
@@ -30,7 +30,7 @@ object ScreenController {
       case CauseAndEffectFinishedUnsuccessfully => new StaticAnimationEngine("unhappy-animation.atlas")
       case CauseAndEffectSecondLevel => new CauseAndEffectEngine(
         List(
-          new StandPoint(101 until 337, 299 until 402, new Vector2(0, 320)),
+          new StandPoint(0 until 337, 299 until 402, new Vector2(0, 320)),
           new StandPoint(330 until 665, 299 until 402, new Vector2(330, 320)),
           new StandPoint(660 until 995, 299 until 402, new Vector2(660, 320)),
           new StandPoint(1000 until 1100, 299 until 402, new Vector2(990, 320))
