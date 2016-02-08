@@ -6,11 +6,12 @@ package org.otw.open.engine.impl
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.{Vector2, Vector3}
-import com.badlogic.gdx.{Gdx, Input, InputAdapter}
+import com.badlogic.gdx.scenes.scene2d.ui.Button
+import com.badlogic.gdx.{Input, Gdx, InputAdapter}
 import org.otw.open.controllers.{CauseAndEffectFinishedSuccessfully, CauseAndEffectFinishedUnsuccessfully, ScreenController}
 import org.otw.open.dto.{Drawing, HorizontalMovingObject, StandPoint}
 import org.otw.open.engine.Engine
-import org.otw.open.engine.util.{Animator, SoundEffects}
+import org.otw.open.engine.util.{SoundEffects, Animator}
 
 /**
   * CauseAndEffectEngine - handles horizontal object movement
@@ -25,11 +26,6 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
   Gdx.input.setInputProcessor(this)
 
   /**
-    * Name of running theme.
-    */
-  private val themeName: String = ScreenController.themes(ScreenController.themeKey)
-
-  /**
     * Max number of failed attempts allowed
     */
   private val maxFailedAttempts = 3
@@ -37,7 +33,7 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
   /**
     * The background texture where the object moves on.
     */
-  private val backgroundTexture = new Texture(Gdx.files.internal("theme/" + themeName + "/light-background.png"))
+  private val backgroundTexture = new Texture(Gdx.files.internal("street-background.png"))
 
   /**
     * Time interval on which the movingObject moves.
@@ -52,7 +48,7 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
   /**
     * Animator object
     */
-  private val animator: Animator = new Animator("theme/" + themeName + "/animation-object.atlas")
+  private val animator: Animator = new Animator("vibrating-car.atlas")
 
   /**
     * Sound instance for cause and effect game
@@ -96,7 +92,6 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
     * Timer for the vibrating object
     */
   private var animationTime = 0f
-
 
   /**
     * Method that handles mouse click on screen
