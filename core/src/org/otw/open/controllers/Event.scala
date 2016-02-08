@@ -22,6 +22,21 @@ case object CauseAndEffectFinishedSuccessfully extends Event
 case object CauseAndEffectFinishedUnsuccessfully extends Event
 
 /**
-  * Cause and effect game finished unsuccessfully.
+  * Retry level play
   */
-case object CauseAndEffectSecondLevel extends Event
+case object RetryLevel extends Event
+
+/**
+  * Continue play game to next level
+  */
+case object NextLevel extends Event
+
+/**
+  * Continue to same level on another theme.
+  */
+case object OtherTheme extends Event
+
+/**
+  * Continue to game main menu.
+  */
+case object ToMainMenu extends Event
