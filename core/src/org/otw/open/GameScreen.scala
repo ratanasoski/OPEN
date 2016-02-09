@@ -13,12 +13,13 @@ class GameScreen(val engine: Engine) extends ScreenAdapter {
   private val batch: SpriteBatch = new SpriteBatch
 
   private val camera: OrthographicCamera = new OrthographicCamera
-  camera.setToOrtho(true, 1440, 900)
+  camera.setToOrtho(false, 1440, 900)
 
   override def render(delta: Float) = {
     camera.update
     Gdx.gl.glClearColor(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, Color.WHITE.a)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+    batch.setProjectionMatrix(camera.combined)
     batch.begin
     engine.getDrawings(delta).foreach(drawing => batch.draw(drawing.image, drawing.x, drawing.y))
     batch.end
@@ -30,10 +31,11 @@ class GameScreen(val engine: Engine) extends ScreenAdapter {
     engine.dispose()
   }
 
-  val transformator: (Vector3 => Vector2) = new Function[Vector3, Vector2] {
-    override def apply(vector: Vector3): Vector2 = {
-      camera.unproject(vector)
-      new Vector2(vector.x, vector.y)
+  val transformator: (Vector2 => Vector2) = new Function[Vector2, Vector2] {
+    override def apply(vector: Vector2): Vector2 = {
+      val vector3: Vector3 = new Vector3(vector.x, Gdx.graphics.getHeight - vector.y, 0)
+      camera.unproject(vector3)
+      new Vector2(vector3.x, vector3.y)
     }
   }
 

@@ -2,7 +2,7 @@ package org.otw.open.engine.impl
 
 import com.badlogic.gdx.graphics.Pixmap.Blending
 import com.badlogic.gdx.graphics.{Pixmap, Texture}
-import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.math.{Vector3, Vector2}
 import com.badlogic.gdx.{Gdx, InputAdapter}
 import org.otw.open.controllers.{EraserGameFinished, ScreenController}
 import org.otw.open.dto.{DrawablePixmap, Drawing}
@@ -32,6 +32,8 @@ class EraserGameEngine extends InputAdapter with Engine {
   private var lastPointerPosition: Option[Vector2] = None
   private var mouseMoved = false
 
+  var transformator: Option[((Vector2) => Vector2)] = None
+
   Pixmap.setBlending(Blending.None)
 
   /** @param delta time elapsed between frames
@@ -52,7 +54,7 @@ class EraserGameEngine extends InputAdapter with Engine {
     *         false otherwise if the mouse is idle
     */
   override def mouseMoved(screenX: Int, screenY: Int): Boolean = {
-    val currentPosition: Vector2 = new Vector2(screenX, screenY)
+    val currentPosition: Vector2 = transformator.get(new Vector2(screenX, screenY))
     val lastPosition = lastPointerPosition.getOrElse(currentPosition)
     lastPointerPosition = Some(lastPosition)
     if (currentPosition != lastPosition) {
@@ -76,6 +78,11 @@ class EraserGameEngine extends InputAdapter with Engine {
     backgroundTexture.dispose
     maskTexture.dispose
     sound.dispose
+  }
+
+  override def setMouseClickPositionTransformator(transformator: (Vector2) => Vector2): Boolean = {
+    this.transformator = Some(transformator)
+    true
   }
 
 }

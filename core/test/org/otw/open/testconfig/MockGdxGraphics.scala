@@ -6,8 +6,8 @@ import com.badlogic.gdx.backends.headless.mock.graphics.MockGraphics
   */
 class MockGdxGraphics extends MockGraphics {
 
-  override def getWidth: Int = 640
+  override def getWidth: Int = 1440
 
-  override def getHeight: Int = 480
+  override def getHeight: Int = 900
 
 }
