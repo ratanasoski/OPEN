@@ -1,7 +1,7 @@
 package org.otw.open.engine.impl
 
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.math.{Vector2, Vector3}
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.{Gdx, InputAdapter}
 import org.otw.open.controllers._
 import org.otw.open.dto.Drawing
@@ -38,23 +38,34 @@ class StaticAnimationEngine(val atlasFileName: String) extends InputAdapter with
   private val toMainMenuButtonTexture = new Texture(Gdx.files.internal("to-main-menu.png"))
   private val toOtherThemeButtonTexture = new Texture(Gdx.files.internal("to-other-theme.png"))
 
+  /** x-axis coordinate for placing the animation on the center of the screen. */
   private val xCentar = 464
+  /** y-axis coordinate for placing the animation on the center of the screen. */
   private val yCentar = 194
 
-  private val gameNavigationButtonsY = 45
+  /** y-axis for all of the menu items. */
+  private val gameNavigationButtonsYCoordinate = 45
 
+  /** y-axis coordinate for the end of menu buttons. */
+  private val endPointY = 900 - gameNavigationButtonsYCoordinate
+
+  /** x-axis coordinate for placing retry level button. */
   private val retryLevelButtonX = 535
+  /** x-axis coordinate for placing the main menu button. */
   private val toMainMenuButtonX = 348
+  /** x-axis coordinate for placing the next level button. */
   private val nextLevelButtonX = 722
+  /** x-axis coordinate for placing the "to next level" button. */
   private val toOtherThemeButtonX = 909
 
-  val startingPointY = Gdx.graphics.getHeight - gameNavigationButtonsY
+  /** menu button size on both x and y axis. */
+  private val buttonTextureSize: Int = nextLevelButtonTexture.getWidth
 
-  val xRangeToMainMenu: Range = (toMainMenuButtonX.toInt until (toMainMenuButtonX + toMainMenuButtonTexture.getWidth).toInt)
-  val xRangeRetryLevel: Range = (retryLevelButtonX.toInt until (retryLevelButtonX + retryLevelButtonTexture.getWidth).toInt)
-  val xRangeNextLevel: Range = (nextLevelButtonX.toInt until (nextLevelButtonX + nextLevelButtonTexture.getWidth).toInt)
-  val xRangeOtherTheme: Range = (toOtherThemeButtonX.toInt until (toOtherThemeButtonX + toMainMenuButtonTexture.getWidth).toInt)
-  val yRangeGameNavigationButtons: Range = ((startingPointY - retryLevelButtonTexture.getHeight).toInt until (startingPointY).toInt)
+  val xRangeToMainMenu: Range = (toMainMenuButtonX.toInt until (toMainMenuButtonX + buttonTextureSize).toInt)
+  val xRangeRetryLevel: Range = (retryLevelButtonX.toInt until (retryLevelButtonX + buttonTextureSize).toInt)
+  val xRangeNextLevel: Range = (nextLevelButtonX.toInt until (nextLevelButtonX + buttonTextureSize).toInt)
+  val xRangeOtherTheme: Range = (toOtherThemeButtonX.toInt until (toOtherThemeButtonX + buttonTextureSize).toInt)
+  val yRangeGameNavigationButtons: Range = ((endPointY - buttonTextureSize).toInt until (endPointY).toInt)
 
   /**
     * Transforms the click coordinates based on the screen size. Uses the camera transformation.
@@ -103,13 +114,13 @@ class StaticAnimationEngine(val atlasFileName: String) extends InputAdapter with
   override def getDrawings(delta: Float): List[Drawing] = {
     timePassed = timePassed + delta
     val happyFaceTexture = animator.getCurrentTexture(timePassed)
-    var nextLevelDrawing: Drawing = new Drawing(nextLevelButtonTexture, nextLevelButtonX, gameNavigationButtonsY)
-    if (currentLevel == maxLevel) nextLevelDrawing = new Drawing(disabledNextLevelButtonTexture, nextLevelButtonX, gameNavigationButtonsY)
+    var nextLevelDrawing: Drawing = new Drawing(nextLevelButtonTexture, nextLevelButtonX, gameNavigationButtonsYCoordinate)
+    if (currentLevel == maxLevel) nextLevelDrawing = new Drawing(disabledNextLevelButtonTexture, nextLevelButtonX, gameNavigationButtonsYCoordinate)
     List(new Drawing(background, 0, 0), new Drawing(happyFaceTexture, xCentar, yCentar),
-      new Drawing(toMainMenuButtonTexture, toMainMenuButtonX, gameNavigationButtonsY),
-      new Drawing(retryLevelButtonTexture, retryLevelButtonX, gameNavigationButtonsY),
+      new Drawing(toMainMenuButtonTexture, toMainMenuButtonX, gameNavigationButtonsYCoordinate),
+      new Drawing(retryLevelButtonTexture, retryLevelButtonX, gameNavigationButtonsYCoordinate),
       nextLevelDrawing,
-      new Drawing(toOtherThemeButtonTexture, toOtherThemeButtonX, gameNavigationButtonsY))
+      new Drawing(toOtherThemeButtonTexture, toOtherThemeButtonX, gameNavigationButtonsYCoordinate))
   }
 
   override def dispose(): Unit = {
