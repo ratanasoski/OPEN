@@ -47,15 +47,15 @@ object ScreenController {
       case 1 => new EraserGameEngine
       case 2 => new CauseAndEffectEngine(
         List(
-          new StandPoint(0 until 344, 299 until 402, new Vector2(0, 320)),
+          new StandPoint(100 until 333, 299 until 402, new Vector2(0, 320)),
           new StandPoint(101 until 337, 299 until 402, new Vector2(990, 320))
         )
       )
       case 3 => new CauseAndEffectEngine(
         List(
-          new StandPoint(0 until 337, 299 until 402, new Vector2(0, 320)),
-          new StandPoint(330 until 665, 299 until 402, new Vector2(330, 320)),
-          new StandPoint(660 until 995, 299 until 402, new Vector2(660, 320)),
+          new StandPoint(100 until 333, 299 until 402, new Vector2(0, 320)),
+          new StandPoint(431 until 665, 299 until 402, new Vector2(330, 320)),
+          new StandPoint(761 until 995, 299 until 402, new Vector2(660, 320)),
           new StandPoint(1000 until 1100, 299 until 402, new Vector2(990, 320))
         )
       )

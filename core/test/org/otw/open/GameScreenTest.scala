@@ -48,10 +48,10 @@ class GameScreenTest extends UnitSpec {
   test("when the transformator function is invoked without resize, it should return the same coordinates") {
     val mockEngine = mock(classOf[Engine])
     val gameScreen = new GameScreen(mockEngine)
-    val transformator: (Vector3) => Vector2 = gameScreen.transformator
-    val vector3 = new Vector3(12, 12, 0)
-    val returnedCoordinates: Vector2 = transformator(vector3)
-    assert(returnedCoordinates.x == vector3.x && returnedCoordinates.y == vector3.y)
+    val transformator: (Vector2) => Vector2 = gameScreen.transformator
+    val vector = new Vector2(12, 12)
+    val returnedCoordinates: Vector2 = transformator(vector)
+    assert(returnedCoordinates.x.toInt == vector.x.toInt && (11 until 13).contains(returnedCoordinates.y.toInt))
   }
 
   test("when the game screen is disposed, the engine despose method should be disposed as well") {

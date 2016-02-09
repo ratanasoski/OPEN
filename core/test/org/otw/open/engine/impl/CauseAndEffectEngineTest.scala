@@ -20,8 +20,8 @@ class CauseAndEffectEngineTest extends UnitSpec with BeforeAndAfterEach {
 
   var causeAndEffectEngine: CauseAndEffectEngine = _
 
-  val transformator = new Function[Vector3, Vector2] {
-    override def apply(vector: Vector3): Vector2 = {
+  val transformator = new Function[Vector2, Vector2] {
+    override def apply(vector: Vector2): Vector2 = {
       new Vector2(vector.x, vector.y)
     }
   }
@@ -43,12 +43,12 @@ class CauseAndEffectEngineTest extends UnitSpec with BeforeAndAfterEach {
 
   test("when objectShouldStopAnimating is invoked it should return false for object not at the end point") {
     val testObject = new HorizontalMovingObject(0, 0, movementDelta)
-    assert(causeAndEffectEngine.objectShouldStopAnimating(testObject.x, testObject.y, standpoints(1)) == false)
+    assert(causeAndEffectEngine.objectShouldStopMoving(testObject.x, testObject.y, standpoints(1)) == false)
   }
 
   test("when objectShouldStopAnimating is invoked it should return true for object at the end point") {
     val testObject = new HorizontalMovingObject(1000, 1000, movementDelta)
-    assert(causeAndEffectEngine.objectShouldStopAnimating(testObject.x, testObject.y, standpoints(2)))
+    assert(causeAndEffectEngine.objectShouldStopMoving(testObject.x, testObject.y, standpoints(2)))
   }
 
   test("when CauseAndEffectEngine object's apply method is invoked new CauseAndEffectEngine instance should be returned") {

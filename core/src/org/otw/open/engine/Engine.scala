@@ -16,6 +16,6 @@ trait Engine extends Disposable {
     * @param transformator - High order function that transforms 3D to 2D coordinates
     * @return Boolean value indicating if method is overriden
     */
-  def setMouseClickPositionTransformator(transformator: ((Vector3) => Vector2)): Boolean = false
+  def setMouseClickPositionTransformator(transformator: ((Vector2) => Vector2)): Boolean = false
 
 }

@@ -38,14 +38,17 @@ class StaticAnimationEngine(val atlasFileName: String) extends InputAdapter with
   private val toMainMenuButtonTexture = new Texture(Gdx.files.internal("to-main-menu.png"))
   private val toOtherThemeButtonTexture = new Texture(Gdx.files.internal("to-other-theme.png"))
 
-  private val gameNavigationButtonsY = 0 + (nextLevelButtonTexture.getHeight / 4)
+  private val xCentar = 464
+  private val yCentar = 194
 
-  private val retryLevelButtonX = (Gdx.graphics.getWidth / 2) - 2 - retryLevelButtonTexture.getWidth
-  private val toMainMenuButtonX = retryLevelButtonX - 4 - toMainMenuButtonTexture.getWidth
-  private val nextLevelButtonX = (Gdx.graphics.getWidth / 2) + 2
-  private val toOtherThemeButtonX = nextLevelButtonX + nextLevelButtonTexture.getWidth + 4
+  private val gameNavigationButtonsY = 45
 
-  val startingPointY = Gdx.graphics.getHeight - gameNavigationButtonsY
+  private val retryLevelButtonX = 535
+  private val toMainMenuButtonX = 348
+  private val nextLevelButtonX = 722
+  private val toOtherThemeButtonX = 909
+
+  val startingPointY = 900 - gameNavigationButtonsY
 
   val xRangeToMainMenu: Range = (toMainMenuButtonX.toInt until (toMainMenuButtonX + toMainMenuButtonTexture.getWidth).toInt)
   val xRangeRetryLevel: Range = (retryLevelButtonX.toInt until (retryLevelButtonX + retryLevelButtonTexture.getWidth).toInt)
@@ -56,8 +59,7 @@ class StaticAnimationEngine(val atlasFileName: String) extends InputAdapter with
   /**
     * Transforms the click coordinates based on the screen size. Uses the camera transformation.
     */
-  var transformator: Option[((Vector3) => Vector2)] = None
-
+  var transformator: Option[((Vector2) => Vector2)] = None
 
   /**
     * Method that handels mouse click on screen
@@ -79,12 +81,12 @@ class StaticAnimationEngine(val atlasFileName: String) extends InputAdapter with
     * @return true if continueObject object is clicked
     */
   def objectIsClicked(x: Int, y: Int): Boolean = {
-    val transformedPosition: Vector2 = transformator.get(new Vector3(x, y, 0))
-    if(yRangeGameNavigationButtons.contains(transformedPosition.y.toInt)) {
-      if(xRangeToMainMenu.contains(transformedPosition.x.toInt)) ScreenController.dispatchEvent(ToMainMenu)
-      if(xRangeRetryLevel.contains(transformedPosition.x.toInt)) ScreenController.dispatchEvent(RetryLevel)
-      if(xRangeNextLevel.contains(transformedPosition.x.toInt) && (currentLevel < maxLevel)) ScreenController.dispatchEvent(NextLevel)
-      if(xRangeOtherTheme.contains(transformedPosition.x.toInt)) ScreenController.dispatchEvent(OtherTheme)
+    val transformedPosition: Vector2 = transformator.get(new Vector2(x, y))
+    if (yRangeGameNavigationButtons.contains(transformedPosition.y.toInt)) {
+      if (xRangeToMainMenu.contains(transformedPosition.x.toInt)) ScreenController.dispatchEvent(ToMainMenu)
+      if (xRangeRetryLevel.contains(transformedPosition.x.toInt)) ScreenController.dispatchEvent(RetryLevel)
+      if (xRangeNextLevel.contains(transformedPosition.x.toInt) && (currentLevel < maxLevel)) ScreenController.dispatchEvent(NextLevel)
+      if (xRangeOtherTheme.contains(transformedPosition.x.toInt)) ScreenController.dispatchEvent(OtherTheme)
     }
     false
   }
@@ -93,7 +95,7 @@ class StaticAnimationEngine(val atlasFileName: String) extends InputAdapter with
     * @param transformator - High order function that transforms 3D to 2D coordinates
     * @return Boolean value indicating if method is overridden
     */
-  override def setMouseClickPositionTransformator(transformator: (Vector3) => Vector2): Boolean = {
+  override def setMouseClickPositionTransformator(transformator: (Vector2) => Vector2): Boolean = {
     this.transformator = Some(transformator)
     true
   }
@@ -102,9 +104,8 @@ class StaticAnimationEngine(val atlasFileName: String) extends InputAdapter with
     timePassed = timePassed + delta
     val happyFaceTexture = animator.getCurrentTexture(timePassed)
     var nextLevelDrawing: Drawing = new Drawing(nextLevelButtonTexture, nextLevelButtonX, gameNavigationButtonsY)
-    if(currentLevel == maxLevel) nextLevelDrawing = new Drawing(disabledNextLevelButtonTexture, nextLevelButtonX, gameNavigationButtonsY)
-    List(new Drawing(background, 0, 0), new Drawing(happyFaceTexture, (Gdx.graphics.getWidth / 2) - (happyFaceTexture.getRegionWidth / 2),
-      (Gdx.graphics.getHeight / 2) - (happyFaceTexture.getRegionHeight / 4)),
+    if (currentLevel == maxLevel) nextLevelDrawing = new Drawing(disabledNextLevelButtonTexture, nextLevelButtonX, gameNavigationButtonsY)
+    List(new Drawing(background, 0, 0), new Drawing(happyFaceTexture, xCentar, yCentar),
       new Drawing(toMainMenuButtonTexture, toMainMenuButtonX, gameNavigationButtonsY),
       new Drawing(retryLevelButtonTexture, retryLevelButtonX, gameNavigationButtonsY),
       nextLevelDrawing,
