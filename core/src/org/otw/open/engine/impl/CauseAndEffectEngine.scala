@@ -58,14 +58,15 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
     * Sound instance for cause and effect game
     */
   private val sound: SoundEffects = new SoundEffects("guidanceForCauseAndEffect.wav")
+
   /**
     * end point of the animation
     */
-  private val endVector = objectStandPoints.reverse.head.coordinates
+  private val endVector = objectStandPoints.reverse.head.standPointCoordinates
   /**
     * Transforms the click coordinates based on the screen size. Uses the camera transformation.
     */
-  var transformator: Option[((Vector3) => Vector2)] = None
+  var transformator: Option[((Vector2) => Vector2)] = None
   /**
     * Boolean flag that is set to true when object is clicked
     */
@@ -90,13 +91,12 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
   /**
     * Moving object.
     */
-  private var movingObject: HorizontalMovingObject = new HorizontalMovingObject(objectStandPoints(0).coordinates.x.toInt, objectStandPoints(0).coordinates.y.toInt, DELTA_MOVEMENT)
+  private var movingObject: HorizontalMovingObject = new HorizontalMovingObject(objectStandPoints(0).standPointCoordinates.x.toInt, objectStandPoints(0).standPointCoordinates.y.toInt, DELTA_MOVEMENT)
 
   /**
     * Timer for the vibrating object
     */
   private var animationTime = 0f
-
 
   /**
     * Method that handles mouse click on screen
@@ -110,7 +110,7 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
   override def touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean = {
     if (button == Input.Buttons.LEFT) {
       if (objectIsClicked(screenX, screenY, objectStandPoints(nextPointIndex - 1))
-        && !objectShouldStopAnimating(movingObject.x, movingObject.y, objectStandPoints(nextPointIndex))
+        && !objectShouldStopMoving(movingObject.x, movingObject.y, objectStandPoints(nextPointIndex))
       ) true
       else {
         if (!objectClicked)
@@ -129,9 +129,9 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
     * @return true if movingObject object is clicked
     */
   def objectIsClicked(x: Int, y: Int, point: StandPoint): Boolean = {
-    val transformedPosition: Vector2 = transformator.get(new Vector3(x, y, 0))
-    if (point.xRange.contains(transformedPosition.x.toInt)
-      && point.yRange.contains(transformedPosition.y.toInt)) {
+    val transformedPosition: Vector2 = transformator.get(new Vector2(x, y))
+    if (point.clickXRange.contains(transformedPosition.x.toInt)
+      && point.clickYRange.contains(transformedPosition.y.toInt)) {
       objectClicked = true
       true
     }
@@ -149,7 +149,7 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
         ScreenController.dispatchEvent(CauseAndEffectFinishedSuccessfully)
       }
       else {
-        if (!objectShouldStopAnimating(movingObject.x, movingObject.y, objectStandPoints(nextPointIndex))) {
+        if (!objectShouldStopMoving(movingObject.x, movingObject.y, objectStandPoints(nextPointIndex))) {
           timer = timer - delta
           if (timer < 0) {
             timer = MOVE_TIME_IN_SECONDS
@@ -166,9 +166,8 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
     * @param objectY y coordinate of the movingObject
     * @return true if movingObject has reached the end point
     */
-  def objectShouldStopAnimating(objectX: Int, objectY: Int, point: StandPoint): Boolean = {
-    val transformedCoordinates: Vector2 = transformator.get(new Vector3(objectX, objectY, 0))
-    if (transformedCoordinates.x >= point.coordinates.x) {
+  def objectShouldStopMoving(objectX: Int, objectY: Int, point: StandPoint): Boolean = {
+    if (objectX >= point.standPointCoordinates.x) {
       nextPointIndex += 1
       nextPoint = objectStandPoints(nextPointIndex)
       objectClicked = false
@@ -190,7 +189,7 @@ class CauseAndEffectEngine(objectStandPoints: List[StandPoint]) extends InputAda
     * @param transformator - High order function that transforms 3D to 2D coordinates
     * @return Boolean value indicating if method is overridden
     */
-  override def setMouseClickPositionTransformator(transformator: (Vector3) => Vector2): Boolean = {
+  override def setMouseClickPositionTransformator(transformator: (Vector2) => Vector2): Boolean = {
     this.transformator = Some(transformator)
     true
   }

@@ -1,5 +1,6 @@
 package org.otw.open.engine.impl
 
+import com.badlogic.gdx.math.Vector2
 import org.junit.Assert
 import org.otw.open.dto.Drawing
 import org.otw.open.testconfig.UnitSpec
@@ -11,9 +12,15 @@ import org.scalatest.BeforeAndAfterEach
 class EraserGameEngineTest extends UnitSpec with BeforeAndAfterEach {
   var eraserGameEngine: EraserGameEngine = _
 
+  val transformator = new Function[Vector2, Vector2] {
+    override def apply(vector: Vector2): Vector2 = {
+      new Vector2(vector.x, vector.y)
+    }
+  }
+
   override def beforeEach(): Unit = {
     eraserGameEngine = new EraserGameEngine
-
+    eraserGameEngine.setMouseClickPositionTransformator(transformator)
   }
 
   override def afterEach(): Unit = {

@@ -4,10 +4,10 @@ import com.badlogic.gdx.math.Vector2
 
 /**
   *
-  * @param xRange the x range of object
-  * @param yRange they range of object
-  * @param coordinates moving object's standpoint
+  * @param clickXRange the x range of object
+  * @param clickYRange they range of object
+  * @param standPointCoordinates moving object's standpoint
   */
-case class StandPoint(val xRange: Range, val yRange: Range, coordinates: Vector2) {
+case class StandPoint(val clickXRange: Range, val clickYRange: Range, standPointCoordinates: Vector2) {
 
 }

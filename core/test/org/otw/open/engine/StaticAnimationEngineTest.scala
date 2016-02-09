@@ -1,5 +1,6 @@
 package org.otw.open.engine
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.{Vector2, Vector3}
 import org.otw.open.dto.Drawing
 import org.otw.open.engine.impl.{CauseAndEffectEngine, EraserGameEngine, StaticAnimationEngine}
@@ -17,8 +18,8 @@ class StaticAnimationEngineTest extends UnitSpec with BeforeAndAfterEach {
   override def beforeEach(): Unit = {
     staticAnimationEngine = new StaticAnimationEngine("test.atlas")
     staticAnimationEngine.setMouseClickPositionTransformator(
-      new Function[Vector3, Vector2] {
-        override def apply(vector: Vector3): Vector2 = {
+      new Function[Vector2, Vector2] {
+        override def apply(vector: Vector2): Vector2 = {
           new Vector2(vector.x, vector.y)
         }
       })
@@ -43,22 +44,22 @@ class StaticAnimationEngineTest extends UnitSpec with BeforeAndAfterEach {
   }
 
   test("when objectIsClicked is invoked with x and y for ToMainMenu") {
-    staticAnimationEngine.objectIsClicked(20, 260)
+    staticAnimationEngine.objectIsClicked(349, 850)
     assert(getCurrentGameScreen.engine.isInstanceOf[EraserGameEngine])
   }
 
   test("when objectIsClicked is invoked with x and y for RetryLevel") {
-    staticAnimationEngine.objectIsClicked(150, 260)
+    staticAnimationEngine.objectIsClicked(150, 850)
     assert(getCurrentGameScreen.engine.isInstanceOf[EraserGameEngine])
   }
 
   test("when objectIsClicked is invoked with x and y for NextLevel") {
-    staticAnimationEngine.objectIsClicked(380, 260)
+    staticAnimationEngine.objectIsClicked(724, 850)
     assert(getCurrentGameScreen.engine.isInstanceOf[CauseAndEffectEngine])
   }
 
   test("when objectIsClicked is invoked with x and y for OtherTheme") {
-    staticAnimationEngine.objectIsClicked(600, 260)
+    staticAnimationEngine.objectIsClicked(600, 850)
     assert(getCurrentGameScreen.engine.isInstanceOf[CauseAndEffectEngine])
   }
 
