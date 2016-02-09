@@ -1,7 +1,7 @@
 package org.otw.open.engine.impl
 
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.math.{Vector2, Vector3}
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.{Gdx, InputAdapter}
 import org.otw.open.controllers._
 import org.otw.open.dto.Drawing
@@ -59,7 +59,7 @@ class StaticAnimationEngine(val atlasFileName: String) extends InputAdapter with
   private val toOtherThemeButtonX = 909
 
   /** menu button size on both x and y axis. */
-  private val buttonTextureSize: Int = 183
+  private val buttonTextureSize: Int = nextLevelButtonTexture.getWidth
 
   val xRangeToMainMenu: Range = (toMainMenuButtonX.toInt until (toMainMenuButtonX + buttonTextureSize).toInt)
   val xRangeRetryLevel: Range = (retryLevelButtonX.toInt until (retryLevelButtonX + buttonTextureSize).toInt)
