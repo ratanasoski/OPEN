@@ -1,6 +1,7 @@
 package org.otw.open.engine
 
 import com.badlogic.gdx.math.{Vector2, Vector3}
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.Disposable
 import org.otw.open.dto.Drawing
 
@@ -10,6 +11,8 @@ import org.otw.open.dto.Drawing
 trait Engine extends Disposable {
 
   def getDrawings(delta: Float): List[Drawing]
+
+  def getStage(delta: Float): Option[Stage] = None
 
   /**
     *

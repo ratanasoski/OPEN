@@ -6,6 +6,7 @@ package org.otw.open.engine.impl
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.{Vector2, Vector3}
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.{Gdx, Input, InputAdapter}
 import org.otw.open.controllers.{CauseAndEffectFinishedSuccessfully, CauseAndEffectFinishedUnsuccessfully, ScreenController}
 import org.otw.open.dto.{Drawing, HorizontalMovingObject, StandPoint}

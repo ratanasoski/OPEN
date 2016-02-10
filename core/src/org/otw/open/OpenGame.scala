@@ -1,14 +1,14 @@
 package org.otw.open
 
 import com.badlogic.gdx.{Game, Screen}
-import org.otw.open.engine.impl.EraserGameEngine
+import org.otw.open.engine.impl.{MainMenuEngine, EraserGameEngine}
 
 /**
   * Created by eilievska on 1/13/2016.
   */
 class OpenGame private() extends Game {
 
-  override def create(): Unit = setScreen(new GameScreen(new EraserGameEngine))
+  override def create(): Unit = setScreen(new GameScreen(new MainMenuEngine(0)))
 }
 
 /**

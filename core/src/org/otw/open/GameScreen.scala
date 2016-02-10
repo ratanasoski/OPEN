@@ -3,6 +3,7 @@ package org.otw.open
 import com.badlogic.gdx.graphics.{OrthographicCamera, Color, GL20}
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.{Vector2, Vector3}
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.{Gdx, ScreenAdapter}
 import org.otw.open.engine.Engine
 
@@ -23,7 +24,15 @@ class GameScreen(val engine: Engine) extends ScreenAdapter {
     batch.begin
     engine.getDrawings(delta).foreach(drawing => batch.draw(drawing.image, drawing.x, drawing.y))
     batch.end
-
+    engine.getStage(delta) match {
+      case Some(stage) => {
+        stage.act(delta)
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
+        Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT )
+        stage.draw
+      }
+      case None => {}
+    }
   }
 
   override def dispose(): Unit = {

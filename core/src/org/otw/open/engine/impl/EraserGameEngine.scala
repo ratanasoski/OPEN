@@ -3,6 +3,7 @@ package org.otw.open.engine.impl
 import com.badlogic.gdx.graphics.Pixmap.Blending
 import com.badlogic.gdx.graphics.{Pixmap, Texture}
 import com.badlogic.gdx.math.{Vector3, Vector2}
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.{Gdx, InputAdapter}
 import org.otw.open.controllers.{EraserGameFinished, ScreenController}
 import org.otw.open.dto.{DrawablePixmap, Drawing}
@@ -67,6 +68,7 @@ class EraserGameEngine extends InputAdapter with Engine {
       false
     }
   }
+
 
   /**
     * Disposes of the textures and sounds.

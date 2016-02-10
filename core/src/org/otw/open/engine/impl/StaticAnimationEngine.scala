@@ -2,6 +2,7 @@ package org.otw.open.engine.impl
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.{Gdx, InputAdapter}
 import org.otw.open.controllers._
 import org.otw.open.dto.Drawing

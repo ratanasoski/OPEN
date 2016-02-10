@@ -3,7 +3,7 @@ package org.otw.open.controllers
 import com.badlogic.gdx.math.Vector2
 import org.otw.open.dto.StandPoint
 import org.otw.open.engine.Engine
-import org.otw.open.engine.impl.{EraserGameEngine, CauseAndEffectEngine, StaticAnimationEngine}
+import org.otw.open.engine.impl.{MainMenuEngine, EraserGameEngine, CauseAndEffectEngine, StaticAnimationEngine}
 import org.otw.open.{GameScreen, OpenGame}
 
 /**
@@ -36,7 +36,7 @@ object ScreenController {
       case RetryLevel => initializeEngine(currentLevel)
       case NextLevel => if(currentLevel < maxLevel) currentLevel += 1; initializeEngine(currentLevel)
       case OtherTheme => themeKey = generateRandomThemeKey; initializeEngine(currentLevel)
-      case ToMainMenu => currentLevel = 1; new EraserGameEngine
+      case ToMainMenu => currentLevel = 1; new MainMenuEngine(0)
     }
     OpenGame.changeScreen(new GameScreen(engine))
     engine
